@@ -7,6 +7,7 @@ module.exports = function(app, express) {
   var roomRouter = express.Router();
   var userRouter = express.Router();
   var interestRouter = express.Router();
+  var queryServer;
 
   app.use(morgan('dev'));
   // Returns middleware that only parses urlencoded bodies
@@ -15,7 +16,12 @@ module.exports = function(app, express) {
   // bodyParser.json() returns middleware that only parses json
   app.use(bodyParser.json());
   // use express to serve statis assets
-  app.use(express.static(__dirname + '/../../client'));
+  if (process.env){
+    queryServer = 'production'
+  } else {
+    queryServer = 'client'
+  }
+  app.use(express.static(__dirname + '/../../'+queryServer));
 
   //auth controller must be first to attach user to request
   require('../users/userAuthController.js')(app);
