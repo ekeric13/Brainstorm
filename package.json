@@ -7,7 +7,7 @@
     "test": "node index.js& ./node_modules/.bin/mocha --bail --reporter nyan specs/server/ServerSpec.js; pkill -n node;",
     "start" : "node index.js",
     "postinstall": "npm run build",
-    "build" : "gulp deployg"
+    "build" : "gulp deploy"
   },
   "repository": {
     "type": "git",
