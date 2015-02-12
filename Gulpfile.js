@@ -88,6 +88,6 @@ gulp.task('production', ['usemin', 'bower'], function () {
 
 gulp.task('default', ['start']);
 
-gulp.task('deploy', ['bower', 'usemin'], function() {
+gulp.task('deploy', ['bower', 'jsx'], function() {
   nodemon({script: 'index.js', ignore: 'node_modules/**/*.js'});
 })
