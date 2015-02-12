@@ -3,11 +3,9 @@
 var User = require('../db.js').User;
 var passport = require('passport');
 var session = require('express-session');
-if (process.env) {
-  var config = require('../config/productionConfig');
-} else {
-  var config = require('../config/config');
-}
+
+var configQuery = process.env ? "productionConfig" : "config";
+var config = require('../config/'+ configQuery);
 
 module.exports = function(app) {
   app.use(session({
