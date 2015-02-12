@@ -3,7 +3,11 @@
 var User = require('../db.js').User;
 var passport = require('passport');
 var session = require('express-session');
-var config = require('../config/config');
+if (process.env) {
+  var config = require('../config/productionConfig');
+} else {
+  var config = require('../config/config');
+}
 
 module.exports = function(app) {
   app.use(session({
