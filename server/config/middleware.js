@@ -21,7 +21,7 @@ module.exports = function(app, express) {
   } else {
     queryServer = 'client'
   }
-  app.use(express.static(__dirname + '/../../'+queryServer));
+  app.use(express.static(__dirname + '/../../client'));
 
   //auth controller must be first to attach user to request
   require('../users/userAuthController.js')(app);
