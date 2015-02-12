@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "node index.js& ./node_modules/.bin/mocha --bail --reporter nyan specs/server/ServerSpec.js; pkill -n node;",
-    "postinstall" : "node node_modules/.bin/gulp production"
+    "start" : "node index.js",
+    "postinstall": "npm run build",
+    "build" : "gulp production"
   },
   "repository": {
     "type": "git",
