@@ -39,13 +39,24 @@ module.exports = function(app) {
       res.redirect('/');
     });
 
-
-  var GitHubStrategy = require('passport-github').Strategy;
-  passport.use(new GitHubStrategy({
+  if (process.env) {
+    var strategyConfiguration = {
+      clientID: config.clientIDpro,
+      clientSecret: config.clientSecretpro,
+      callbackURL: config.callbackURLpro
+    }
+  } else {
+    var strategyConfiguration = {
       clientID: config.clientID,
       clientSecret: config.clientSecret,
       callbackURL: config.callbackURL
-    },
+    }
+  }
+
+
+  var GitHubStrategy = require('passport-github').Strategy;
+  passport.use(
+    new GitHubStrategy(strategyConfiguration,
     function(accessToken, refreshToken, profile, done) {
       User.findOne({username: profile.username}, function(err, user) {
         if(err) {
