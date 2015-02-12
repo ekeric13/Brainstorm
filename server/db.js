@@ -3,7 +3,7 @@ var db = {};
 
 var pEnv = process.env;
 var devDb = 'mongodb://localhost/brainstormer';
-mongoose.connect(pEnv.MONGOLAB_URI || pEnv.MONGOHQ_URL  || devDb);
+mongoose.connect(pEnv.MONGOLAB_URI || devDb);
 var database = mongoose.connection;
 database.on('error', console.error.bind(console, 'mongo connection error:'));
 database.on('open', function() { console.log('mongo hooked'); });
