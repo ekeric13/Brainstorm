@@ -4,7 +4,9 @@
   "description": "Brainstorming app",
   "main": "index.js",
   "scripts": {
-    "test": "node index.js& ./node_modules/.bin/mocha --bail --reporter nyan specs/server/ServerSpec.js; pkill -n node;"
+    "test": "node index.js& ./node_modules/.bin/mocha --bail --reporter nyan specs/server/ServerSpec.js; pkill -n node;",
+    "start" : "node index.js",
+    "poststart" : "bower install; gulp jsx"
   },
   "repository": {
     "type": "git",
