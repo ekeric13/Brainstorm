@@ -88,6 +88,6 @@ gulp.task('production', ['usemin', 'bower'], function () {
 
 gulp.task('default', ['start']);
 
-gulp.task('deploy', ['bower', 'jsx'], function() {
+gulp.task('heroku:production', ['bower', 'jsx'], function() {
   nodemon({script: 'index.js', ignore: 'node_modules/**/*.js'});
 })
