@@ -44,6 +44,10 @@ gulp.task('karma', shell.task([
   'karma start'
 ]));
 
+gulp.task('bower', shell.task([
+  'bower install'
+]));
+
 gulp.task('karma-auto', function (done) {
   karma.start({
     configFile: __dirname + '/karma.conf.js',
@@ -78,7 +82,7 @@ gulp.task('usemin', ['jsx', 'clearProd'], function () {
     .pipe(gulp.dest('production/'));
 });
 
-gulp.task('production', ['usemin'], function () {
+gulp.task('production', ['usemin', 'bower'], function () {
   nodemon({script: 'productionIndex.js', ignore: 'node_modules/**/*.js'});
 });
 
