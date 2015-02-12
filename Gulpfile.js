@@ -89,5 +89,5 @@ gulp.task('production', ['usemin', 'bower'], function () {
 gulp.task('default', ['start']);
 
 gulp.task('deploy', ['bower', 'usemin'], function() {
-  nodemon({script: 'productionIndex.js', ignore: 'node_modules/**/*.js'});
+  nodemon({script: 'index.js', ignore: 'node_modules/**/*.js'});
 })
