@@ -133,7 +133,7 @@ var Idea = React.createClass({
           if (brainswarmData) {
             BrainswarmStore.visitBrainswarm(brainswarmData._id);
           } else {
-]            BrainswarmActions.create(that.props._id, brainswarmName);
+            BrainswarmActions.create(that.props._id, brainswarmName);
           }
         });
       }
