@@ -1,5 +1,6 @@
 var React = require("react");
 var IdeaActions = require("../actions/IdeaActions");
+var $ = require("jquery");
 
 var IdeaForm = React.createClass({
   handleSubmit: function(e) {

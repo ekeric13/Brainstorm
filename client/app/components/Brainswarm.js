@@ -1,6 +1,7 @@
 var React = require("react");
 var BrainswarmActions = require("../actions/BrainswarmActions");
 var BrainswarmStore = require("../stores/BrainswarmStore");
+var d3 = require("d3");
 
 function createMap(brainswarmId, brainswarm){
 
