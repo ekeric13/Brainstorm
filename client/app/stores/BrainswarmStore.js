@@ -35,34 +35,70 @@ var BrainswarmStore = assign({}, EventEmitter.prototype, {
   //   }
   //  }
   // },
-  getBrainswarm: function(brainswarmId) {
-  // console.log("try to get brainswarm");
-   var brainswarms = this._brainswarms;
-   for (var i =0; i< brainswarms.length; i++){
-      if (brainswarms[i]._id === brainswarmId){
-        return brainswarms[i];
+  checkBrainswarm: function(idea_id, callback){
+    var brainswarms = this._brainswarms;
+
+    for (var i =0; i < brainswarms.length; i++){
+      if (brainswarms[i].idea === idea_id){
+        callback(brainswarms[i]);
+        break;
+        // return brainswarms[i];
       }
-   }
+    }
+    callback();
+  },
+  getBrainswarm: function(idea_id, callback) {
+    $.ajax({
+      type: 'GET',
+      url: '/brainswarms/' + idea_id,
+    })
+    .done(function (brainswarmsData) {
+      // var brainswarms = this._brainswarms;
+      for (var i = 0; i< brainswarmsData.length; i++){
+        this._brainswarms.push(brainswarmsData[i]);
+        if (brainswarmsData[i].idea === idea_id){
+          var tempBrainswarm = brainswarmsData[i];
+        }
+      }
+
+      // broadcast that _ideas has changed
+      this.emitChange();
+      if (tempBrainswarm) {
+        console.log("callback of step2", tempBrainswarm);
+        callback(tempBrainswarm);
+        // return tempBrainswarm;
+      }
+    }.bind(this))
+    .fail(function(error) {
+      console.error(error);
+    });
+   // var brainswarms = this._brainswarms;
+   // for (var i =0; i< brainswarms.length; i++){
+   //    if (brainswarms[i]._id === brainswarmId){
+   //      return brainswarms[i];
+   //    }
+   // }
   },
 
+  findBrainswarm: function(brainswarmId) {
+    var brainswarms = this._brainswarms;
+    for (var i =0; i< brainswarms.length; i++){
+       if (brainswarms[i]._id === brainswarmId){
+         return brainswarms[i];
+       }
+    }
+  },
   // findBrainswarm: function(idea_id) {
-  //   for (var key in _brainswarms){
-  //     if (_brainswarms[key]._id === idea_id){
-  //       return _brainswarms[key]
-  //     }
-  //   }
-  // },
-  findBrainswarm: function(idea_id) {
-     var brainswarms = this._brainswarms;
-     console.log("get here for brainswarms", brainswarms)
-    // console.log("get here for brainswarms", brainswarms);
-     for (var i =0; i< brainswarms.length; i++){
-          console.log("these should be equal", brainswarms[i].idea, idea_id)
-        if (brainswarms[i].idea === idea_id){
-          return brainswarms[i];
-        }
-     }
-   },
+  //    var brainswarms = this._brainswarms;
+  //    console.log("get here for brainswarms", brainswarms)
+  //   // console.log("get here for brainswarms", brainswarms);
+  //    for (var i =0; i< brainswarms.length; i++){
+  //         console.log("these should be equal", brainswarms[i].idea, idea_id)
+  //       if (brainswarms[i].idea === idea_id){
+  //         return brainswarms[i];
+  //       }
+  //    }
+  //  },
 
   create: function(idea_id, name) {
   //  console.log('this is create name', name);
@@ -180,7 +216,6 @@ AppDispatcher.register(function(payload) {
     case BrainswarmConstants.BRAINSWARM_GET:
       BrainswarmStore.getBrainswarm(action.brainswarmId);
 
-      BrainswarmStore.emitChange();
      break;
 
     case BrainswarmConstants.BRAINSWARM_VISIT:

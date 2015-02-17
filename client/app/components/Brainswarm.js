@@ -647,11 +647,11 @@ var Brainswarm = React.createClass({
 
   getInitialState: function(){
     // var currentBrainswarm = app.BrainswarmActions.getBrainswarm(this.props._id);
-    var currentBrainswarm = BrainswarmStore.getBrainswarm(this.props._id);
+    var currentBrainswarm = BrainswarmStore.findBrainswarm(this.props._id);
     console.log('this is brainswarm: ', currentBrainswarm);
 
     return {
-      currentBrainswarm: BrainswarmStore.getBrainswarm(this.props._id)
+      currentBrainswarm: BrainswarmStore.findBrainswarm(this.props._id)
     }
 
   },

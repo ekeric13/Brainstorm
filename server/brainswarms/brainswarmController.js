@@ -64,6 +64,22 @@ module.exports = {
         .fail(function(error) {
           next(error);
         });
+    },
+
+    getBrainswarm: function(req, res, next){
+      var getBrainswarm = Q.nbind(Brainswarm.find, Brainswarm);
+      var query = req.params.idea_id ? { idea: req.params.idea_id } : {};
+      console.log("Look at this QUERY", query)
+      getBrainswarm(query)
+        .then(function(allBrainswarms) {
+        // if there are brainswarm send them in response
+        if(allBrainswarms) {
+          res.json(allBrainswarms);
+        }
+      })
+      .fail(function(error) {
+        next(error);
+      });
     }
 
 };
