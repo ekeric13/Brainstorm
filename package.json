@@ -4,7 +4,7 @@
   "description": "Brainstorming app",
   "main": "index.js",
   "scripts": {
-    "start": "watchify -d client/app/starter.js -o client/app/bundle.js -v",
+    "start": "NODE_ENV=production browserify client/app/starter.js | uglifyjs -cm > client/app/bundle.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "NODE_ENV=production browserify client/app/starter.js | uglifyjs -cm > client/app/bundle.js"
   },
