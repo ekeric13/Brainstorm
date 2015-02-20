@@ -2,8 +2,7 @@ var React = require("react");
 var BrainstormApp = require("./components/BrainstormApp");
 var PageActions = require("./actions/PageActions");
 var BrainswarmStore = require("./stores/BrainswarmStore");
-
-
+var socket = io.connect();
 
 React.render(
   <BrainstormApp />,

@@ -2,12 +2,12 @@ var Room = require('./room.server.model.js');
 var Q = require('q');
 
 module.exports = {
-  newRoom: function (req, res, next) {
+  newRoom: function (clientRoom) {
     var room = {};
 
-    room.name = req.body.name;
-    room.ownerName = req.user.socialData.name;
-    room.owner = req.user._id;
+    room.name = clientRoom.name;
+    room.ownerName = clientRoom.user.socialData.name;
+    room.owner = clientRoom.user._id;
 
 
     var createRoom = Q.nbind(Room.create, Room);
