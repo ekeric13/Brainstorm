@@ -6,7 +6,7 @@
   "scripts": {
     "start": "watchify -d client/app/starter.js -o client/app/bundle.js -v",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "NODE_ENV=production browserify client/app/starter.js | uglifyjs -cm > client/app/bundle.js"
+    "build": "NODE_ENV=production browserify client/app/starter.js | uglifyjs -cm > client/app/bundle.min.js"
   },
   "browserify": {
     "transform": [
