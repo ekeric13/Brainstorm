@@ -31,13 +31,33 @@ module.exports = {
   allIdeas: function(req, res, next) {
     // create promise for Idea.find
     var getIdeas = Q.nbind(Idea.find, Idea);
-    var query = req.params.room_id ? { room: req.params.room_id } : {};
+    var query = req.params.room_id ? { room: req.params.room_id } : undefined;
     // get all ideas
+    console.log("query", query, req.params.room_id);
     getIdeas(query)
       .then(function(allIdeas) {
         // if there are ideas send them in response
+        console.log("should not be here")
         if(allIdeas) {
-          res.json(allIdeas);
+          if (query){
+            res.json(allIdeas);
+          } else {
+            var ideasCopy = allIdeas.slice();
+            // how many words in the word cloud
+            var limitIdeas;
+            var max = ideasCopy.length;
+            if (max > 50){
+              limitIdeas = 25;
+            } else {
+              limitIdeas = 0;
+            }
+            var min = 0;
+            // returns where we start getting words from the array
+            var randNum = Math.floor(Math.random() * (max - limitIdeas - min + 1)) + min;
+            var wordIdeas = ideasCopy.splice(randNum, limitIdeas);
+            console.log("should be 10 ideas", wordIdeas.length, randNum, max, ideasCopy.length);
+            res.json(wordIdeas);
+          }
         }
       })
       .fail(function(error) {
