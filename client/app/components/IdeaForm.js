@@ -39,9 +39,7 @@ var IdeaForm = React.createClass({
         //event after timer here
         //display google links
         $('#hangoutsLink').css("display","inline");
-
         //allow showing other's ideas
-
     });
 
     //start this timer when ready by clicking button...

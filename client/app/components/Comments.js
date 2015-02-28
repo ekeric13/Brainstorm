@@ -9,12 +9,11 @@ var Comments = React.createClass({
  mixins: [PureRenderMixin],
 
  propTypes: {
- _id: React.PropTypes.string,
- idea_id: React.PropTypes.string,
- name: React.PropTypes.string,
- ownerName: React.PropTypes.string
+  _id: React.PropTypes.string,
+  idea_id: React.PropTypes.string,
+  name: React.PropTypes.string,
+  ownerName: React.PropTypes.string
  },
-
 
   _url: false,
   //get all loaded comments
@@ -27,7 +26,6 @@ var Comments = React.createClass({
   },
 
   checkUrl: function(comments){
-    var that = this;
     for (var i = 0; i < comments.length; i++){
       if (comments[i].toString().slice(0,7) === "http://" || "https:/"){
         comments[i].urlBoolean = true;

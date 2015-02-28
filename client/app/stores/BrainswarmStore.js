@@ -2,7 +2,6 @@ var AppDispatcher = require("../dispatcher/AppDispatcher");
 var EventEmitter = require('events').EventEmitter;
 var BrainswarmConstants = require("../constants/BrainswarmConstants");
 var PageActions = require("../actions/PageActions");
-var $ = require("jquery");
 var socket = io.connect();
 var assign = require("object-assign");
 // takes objects as arguements and assigns them to one large object

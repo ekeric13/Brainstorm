@@ -8,18 +8,17 @@ var IdeaStore = require("../stores/IdeaStore");
 var IdeaActions = require("../actions/IdeaActions");
 var BrainswarmStore = require("../stores/BrainswarmStore");
 var BrainswarmActions = require("../actions/BrainswarmActions");
-var Q = require('q');
 var Draggable = require('react-draggable');
 var socket = io();
-//var $ = require('jquery');
 var ConfirmationBox = require("./confirmationBox");
 var PureRenderMixin = require('react/addons').addons.PureRenderMixin;
-
+var Router = require("react-router");
+var Navigation = Router.Navigation;
 
 
 var Idea = React.createClass({
 
-  mixins: [PureRenderMixin],
+  mixins: [PureRenderMixin, Navigation],
 
   propTypes: {
       id: React.PropTypes.string,
@@ -111,7 +110,7 @@ var Idea = React.createClass({
     socket.emit('idea change', obj);
   },
   handleStop: function (event, ui) {
-    
+
     this.setState({position: {top: event.clientY, left:event.clientX}});
 
   },
@@ -180,10 +179,7 @@ var Idea = React.createClass({
                   <Comments idea_id={this.props._id} />
                 </div>
               </div>
-
             </div>
-
-
           </form>
         </div>
       </Draggable>
@@ -214,28 +210,17 @@ var Idea = React.createClass({
 
     var name = this.props.name;
     var brainswarmName = name + "_brainswarm";
-    // var brainswarm = BrainswarmStore.checkBrainswarm(this.props._id);
-    // if (!brainswarm){
-    //   var brainswarm = BrainswarmStore.getBrainswarm(this.props._id);
-    // }
-    // if (brainswarm){
-    //   // get a specific brainstorm
-    //   // REFACTOR TO USE AN ACTION
-    //   console.log("going to previous brainswarm");
-    //   BrainswarmStore.visitBrainswarm(brainswarm._id);
-    // } else {
-    //   BrainswarmActions.create(this.props._id, brainswarmName);
-    // }
-    var that = this;
+
+    var self = this;
     BrainswarmStore.checkBrainswarm(this.props._id, function(brainswarm){
       if (brainswarm){
-        BrainswarmStore.visitBrainswarm(brainswarm._id);
+        self.transitionTo("/brainswarms/"+brainswarm._id);
       } else {
-        BrainswarmStore.getBrainswarm(that.props._id, function(brainswarmData){
+        BrainswarmStore.getBrainswarm(self.props._id, function(brainswarmData){
           if (brainswarmData) {
-            BrainswarmStore.visitBrainswarm(brainswarmData._id);
+            self.transitionTo("/brainswarms/"+brainswarmData._id)
           } else {
-            BrainswarmActions.create(that.props._id, brainswarmName);
+            BrainswarmActions.create(self.props._id, brainswarmName);
           }
         });
       }

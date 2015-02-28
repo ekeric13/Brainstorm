@@ -109,7 +109,7 @@ module.exports = function(app) {
           console.log(err);
         }
         if (!user) {
-          user = new User({ username: profile.emails[0].value, socialData: {name: profile.displayName} });          
+          user = new User({ username: profile.emails[0].value, socialData: {name: profile.displayName} });
           user.save();
         }
         done(null, user);

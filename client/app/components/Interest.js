@@ -29,10 +29,8 @@ var Interest = React.createClass({
   handleClick: function (e) {
     e.preventDefault();
     if (this._liked){
-      console.log("deleted");
       InterestActions.delete(this._liked);
     } else {
-      console.log("created");
       InterestActions.create(this.props.idea_id);
     }
   },

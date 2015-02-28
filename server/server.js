@@ -18,15 +18,10 @@ io.on('connection', function(client) {
     client.join(room);
   });
 
-  client.on('join-brainswarm', function(brainswarm) {
-    client.join(brainswarm);
-  });
+  // client.on('join-brainswarm', function(brainswarm) {
+  //   client.join(brainswarm);
+  // });
 
-  // client.on('add-room', function(room){
-  //   console.log("added this room", room);
-  //   client.join(room);
-  //   roomController.newRoom(room)
-  // })
 
   client.on('comment-change', function(currentComments, room) {
     client.broadcast.in(room).emit('comment-change', currentComments);
@@ -44,6 +39,7 @@ io.on('connection', function(client) {
     client.broadcast.emit('room-change', currentRooms);
   });
 
+// Possibly take this out.
   client.on('brainswarm-change', function(currentBrainswarms){
     client.broadcast.emit('brainswarm-change', currentBrainswarms);
   });

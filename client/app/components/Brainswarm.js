@@ -1,10 +1,11 @@
 var React = require("react");
+var Router = require("react-router");
+var State = Router.State;
 var BrainswarmActions = require("../actions/BrainswarmActions");
 var BrainswarmStore = require("../stores/BrainswarmStore");
-// var d3 = require("d3");
 var socket = io.connect();
 
-var dataz;
+var mapData;
 
 function createMap(brainswarmId, brainswarm){
 
@@ -645,7 +646,7 @@ function createMap(brainswarmId, brainswarm){
         }
         var data = window.JSON.stringify({"nodes": thisGraph.nodes, "edges": saveEdges});
       //  console.log("CLIENTMAP",mapId)
-        dataz = data;
+        mapData = data;
        // var idz = mapId.toString();
        // console.log('NUMZ', typeof idz)
         socket.emit('map change', data);
@@ -685,20 +686,19 @@ function createMap(brainswarmId, brainswarm){
     // MAIN SVG
 
   })(window.d3, window.saveAs, window.Blob);
-
-
 }
-
-
 
 var Brainswarm = React.createClass({
 
+  mixins: [ State ],
+
   getInitialState: function(){
-    // var currentBrainswarm = app.BrainswarmActions.getBrainswarm(this.props._id);
-    var currentBrainswarm = BrainswarmStore.findBrainswarm(this.props._id);
+    var brainswarmId = this.getParams().brainswarmId;
+    var currentBrainswarm = BrainswarmStore.findBrainswarm(brainswarmId);
 
     return {
-      currentBrainswarm: BrainswarmStore.findBrainswarm(this.props._id)
+      currentBrainswarm: currentBrainswarm,
+      brainswarmId: brainswarmId
     }
   },
   propTypes: {
@@ -739,46 +739,30 @@ var Brainswarm = React.createClass({
     );
   },
 
-  getGraph:function(e){
-
-  },
-
-  updateGraph: function(e){
-    e.preventDefault();
-    if (this.isMounted()) {
-      this.setState({ currentBrainswarm: BrainswarmStore.findBrainswarm(this.props._id) });
-    }
-  },
+  //updateGraph: function(e){
+  //  var brainswarmId = this.getParams().brainswarmId;
+  //  e.preventDefault();
+  //  if (this.isMounted()) {
+  //    this.setState({ currentBrainswarm: BrainswarmStore.findBrainswarm(brainswarmId) });
+  //  }
+  //},
 
   componentDidMount: function(){
-    socket.emit('join brainswarm',this.props._id);
-    createMap(this.props._id, this.state.currentBrainswarm);
+    socket.emit('join brainswarm', this.state.brainswarmId);
+    createMap(this.state.brainswarmId, this.state.currentBrainswarm);
    // BrainswarmStore.addChangeListener(this._onChange);
 
   },
 
-  _onChange: function(){
-  //  console.log("hit _onChange");
-    if(this.isMounted()) {
-      this.setState({ currentBrainswarm: BrainswarmStore.findBrainswarm(this.props._id) });
-    }
-  },
-
-  // componentWillUnmount: function(){
-  //   BrainswarmStore.removeChangeListener(this._onChange);
-  // },
-
   componentWillUnmount: function(){
     // similar to componentDidMount but also invoked on the server;
-    BrainswarmStore.edit(this.props._id, dataz);
-    socket.emit('brainswarm leave',this.props._id);
-    // createMap(this.props._id, this.state.currentBrainswarm);
+    BrainswarmStore.edit(this.state.brainswarmId, mapData);
+    socket.emit('brainswarm leave', this.state.brainswarmId);
   },
 
   componentDidUpdate: function(){
     // after new state has been set
-   // console.log("brainswarm updating");
-    createMap(this.props._id, this.state.currentBrainswarm);
+    createMap(this.state.brainswarmId, this.state.currentBrainswarm);
   }
 
 

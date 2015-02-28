@@ -6,7 +6,6 @@ var CommentForm = React.createClass({
 
   mixins: [PureRenderMixin],
 
-
   handleSubmit: function (e) {
     e.preventDefault();
 

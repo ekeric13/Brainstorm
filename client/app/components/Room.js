@@ -4,6 +4,9 @@ var UserStore = require("../stores/UserStore");
 var PageActions = require("../actions/PageActions");
 var IdeaStore = require("../stores/IdeaStore");
 var RoomActions = require("../actions/RoomActions");
+var Router = require("react-router");
+var Link = Router.Link;
+
 
 function ideaWordCloud(selector, ideaWords){
   function wordCloud(selector) {
@@ -69,7 +72,9 @@ function ideaWordCloud(selector, ideaWords){
 
   //http://en.wikiquote.org/wiki/Opening_lines
   var words = ideaWords;
-
+  if (words.length === 0){
+    words.push("create ideas");
+  }
 
   //Remove punctation and repeated words. Compute a random
   // size attribute for each word.
@@ -114,29 +119,23 @@ var Room = React.createClass({
     };
   },
 
-  gotoRoom: function(e){
-    e.preventDefault();
-    PageActions.navigate({
-      dest: 'rooms',
-      props: this.props._id
-    });
-  },
+
   componentDidMount: function() {
     // add a change listener on the IdeaStore
     // this is needed when the edit comes back and emits a change
     // that will force the component to re-render
 
     IdeaStore.addChangeListener(this._onChange);
-    var that = this;
+    var self = this;
     window.setTimeout(function() {
       var ideas = IdeaStore.getAll();
       var ideaNames = [];
       for (var i = 0; i < ideas.length; i++){
-        if (ideas[i].room === that.props._id){
+        if (ideas[i].room === self.props._id){
           ideaNames.push(ideas[i].name);
         }
       }
-      ideaWordCloud("."+that.props.name, ideaNames)
+      ideaWordCloud("."+self.props.name, ideaNames)
     }, 5000)
 
   },
@@ -163,12 +162,8 @@ var Room = React.createClass({
     var editForm;
     var currentUser = this.state.currentUser;
     var roomOwner = this.props.owner;
+    console.log("THIS IS ID",this.props._id)
 
-    // console.log("This is the current user")
-    // console.log(currentUser)
-    // console.log("this is the room owner")
-    // console.log(roomOwner);
-    // if editing render edit form otherwise render "Edit Idea" button
     if (this.state.editing) {
       editForm = <RoomCreateForm editing="true" owner={this.props.owner} name={this.props.name} key={this.props._id} _id={this.props._id} />
     }
@@ -179,7 +174,7 @@ var Room = React.createClass({
       if (currentUser._id === roomOwner) {
         roomContent = (
           <div className="room pure-u-1">
-            <span><a className="room-anchor" style={{fontSize: "18px", paddingLeft: "10px"}} href="#" onClick={this.gotoRoom}>{this.props.name}</a></span><span className={this.props.name}></span>
+            <span><Link to="roomView" params={{roomId: this.props._id}} className="room-anchor" style={{fontSize: "18px", paddingLeft: "10px"}}>{this.props.name}</Link></span><span className={this.props.name}></span>
 
             <form className="pure-form pure-g">
                 {editForm}
@@ -196,7 +191,7 @@ var Room = React.createClass({
       else {
         roomContent = (
           <div className="room pure-u-1">
-            <span><a href="#" style={{fontSize: "18px", paddingLeft: "10px"}} onClick={this.gotoRoom}>{this.props.name}</a></span><span className={this.props.name}></span>
+            <span><Link to="roomView" params={{roomId: this.props._id}} style={{fontSize: "18px", paddingLeft: "10px"}} className="room-anchor">{this.props.name}</Link></span><span className={this.props.name}></span>
           </div>
         );
       }

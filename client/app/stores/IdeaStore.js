@@ -5,15 +5,16 @@ var PageConstants = require("../constants/PageConstants");
 var PageStore = require("./PageStore");
 var assign = require("object-assign");
 var socket = io.connect();
-var $ = require("jquery");
 
 var CHANGE_EVENT = 'change';
 
 var IdeaStore = assign({}, EventEmitter.prototype, {
   _ideas: [],
 
-  _room: function() {
-    return PageStore.currentRoute.props;
+  _room: '',
+
+  setRoom: function(currentRoom) {
+    _room = currentRoom;
   },
 
   getAll: function() {
@@ -70,7 +71,7 @@ var IdeaStore = assign({}, EventEmitter.prototype, {
       this._ideas.push(idea);
 
       // broadcast that _ideas has changed
-      socket.emit('idea-change', this._ideas, this._room());
+      socket.emit('idea-change', this._ideas, room_id);
       this.emitChange();
     }.bind(this))
     .fail(function(error) {
@@ -93,7 +94,7 @@ var IdeaStore = assign({}, EventEmitter.prototype, {
           idea.position = ideaEdit.position;
 
           // broadcast that _ideas has changed
-          socket.emit('idea-change', this._ideas, this._room());
+          socket.emit('idea-change', this._ideas, this._room);
           // return this.emitChange();
         }
       }.bind(this));
@@ -118,7 +119,7 @@ var IdeaStore = assign({}, EventEmitter.prototype, {
           this._ideas.splice(index, 1);
 
           // broadcast that _ideas has changed
-          socket.emit('idea-change', this._ideas, this._room());
+          socket.emit('idea-change', this._ideas, this._room);
           // return this.emitChange();
         }
       }.bind(this));

@@ -14,7 +14,6 @@ var Comment = React.createClass({
 
   mixins: [PureRenderMixin],
 
-
   getInitialState: function() {
     // set initial editing state to false
     return {
@@ -38,12 +37,12 @@ var Comment = React.createClass({
     if (this.props.anchor){
       commentContent = (
 
-          <h5 ref="body">{this.props.ownerName}: <a href={this.props.name} target="_blank">{this.props.name}</a></h5>
+          <h5>{this.props.ownerName}: <a href={this.props.name} target="_blank">{this.props.name}</a></h5>
 
       );
     } else {
       commentContent = (
-        <h5 ref="body">{this.props.ownerName}: {this.props.name}</h5>
+        <h5>{this.props.ownerName}: {this.props.name}</h5>
       );
     }
 

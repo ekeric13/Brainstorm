@@ -1,36 +1,24 @@
 var React = require("react");
-var CreateRoom = require("./CreateRoom");
-var Rooms = require("./Rooms");
-var RoomTitle = require("./RoomTitle");
-var CreateIdea = require("./IdeaForm");
-var SearchBar = require("./SearchBar");
-var Ideas = require("./Ideas");
-var Brainswarm = require("./Brainswarm");
+var Router = require('react-router');
 var PageNav = require("./PageNav");
 var UserStore = require("../stores/UserStore");
-var PageStore = require("../stores/PageStore");
-var PageActions = require("../actions/PageActions");
 var About = require("./About");
-var socket = io.connect();
+
+var RouteHandler = Router.RouteHandler;
 
 var BrainstormApp = React.createClass({
 
   propTypes: {
-    indexView: React.PropTypes.bool,
-    roomView: React.PropTypes.bool,
-    aboutView: React.PropTypes.bool,
+
     filterText: React.PropTypes.string,
-    filterNames:React.PropTypes.string,
-    room_id: React.PropTypes.string
+    filterNames:React.PropTypes.string
+    // room_id: React.PropTypes.string
 
   },
 
 
   getInitialState: function() {
     return {
-      indexView: true,
-      roomView: false,
-      aboutView: false,
       currentUser: UserStore.get(),
       filterText: '',
       filterNames: ''
@@ -45,7 +33,7 @@ var BrainstormApp = React.createClass({
       }
     }.bind(this));
 
-    PageStore.addChangeListener(function(){
+   /* PageStore.addChangeListener(function(){
 
       //get state from the PageStore.currentRoute
       var state = PageStore.currentRoute;
@@ -71,61 +59,24 @@ var BrainstormApp = React.createClass({
       } else if (!state.indexView && !state.aboutView) {
         socket.emit('join', state.props);
       }
-    }.bind(this));
-  },
-
-  handleUserInput: function(filterText, filterNames) {
-      this.setState({
-          filterText: filterText,
-          filterNames: filterNames
-      });
+    }.bind(this));*/
   },
 
   render: function(){
-    var currentView;
-    if(this.state.indexView) { //thisIsHomePage
-      currentView = (
-        <div>
-          <CreateRoom />
-          <Rooms />
-        </div>
-      );
-    } else if (this.state.roomView) { // must be a room
-      currentView = (
-        <div>
-          <RoomTitle room_id={this.state.props}/>
-          <CreateIdea room_id={this.state.props}/>
-          <SearchBar
-              filterText={this.state.filterText}
-              filterNames={this.state.filterNames}
-              onUserInput={this.handleUserInput}
-          />
-          <div className="idea-whiteboard">
-          <Ideas room_id={this.state.props}
-            filterText={this.state.filterText}
-            filterNames={this.state.filterNames}
-          />
-            </div>
-        </div>
-      );
-    } else if (this.state.aboutView) {
-      currentView = (
-        <About />
-      );
 
-    } else { // brainswarm
-     currentView = (
+
+    /* currentView = (
       <div>
         <Brainswarm _id={this.state.props}/>
 
       </div>
      );
-    }
+    }*/
 
     return (
-      <div className={'user-' + !!this.state.currentUser} >
+      <div>
         <PageNav />
-        { currentView }
+        <RouteHandler />
       </div>
     );
   }

@@ -17,9 +17,7 @@ var UserStore = assign({}, EventEmitter.prototype, {
     })
     .done(function(user) {
       this._user = user;
-      if (user){
-        window.globalBoolean = false;
-      }
+
       this.emitChange();
     }.bind(this))
     .fail(function(err) {
@@ -33,10 +31,9 @@ var UserStore = assign({}, EventEmitter.prototype, {
       type: 'DELETE'
     })
     .done(function(user) {
+      console.log("logged out ", user);
       this._user = user;
-      window.globalBoolean = true;
       this.emitChange();
-      window.location.href = "/";
     }.bind(this))
     .fail(function(err) {
       console.log(err);
@@ -50,6 +47,10 @@ var UserStore = assign({}, EventEmitter.prototype, {
   addChangeListener:function(callback){
     this.on(CHANGE_EVENT, callback);
   },
+
+  removeChangeListener: function(callback) {
+    this.removeListener(CHANGE_EVENT, callback);
+  }
 });
 
 module.exports = UserStore;
