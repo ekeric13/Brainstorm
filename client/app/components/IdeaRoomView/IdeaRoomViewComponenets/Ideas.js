@@ -5,14 +5,13 @@ var IdeaActions = require("../../../actions/IdeaActions");
 var UserStore = require("../../../stores/UserStore");
 var Draggable = require('react-draggable');
 var socket = io();
-var PureRenderMixin = require('react/addons').addons.PureRenderMixin;
 var Reflux = require("reflux");
 
 React.initializeTouchEvents(true);
 
 var Ideas = React.createClass({
 
-  mixins: [Reflux.ListenerMixin, PureRenderMixin],
+  mixins: [Reflux.ListenerMixin],
 
   propTypes: {
     _id: React.PropTypes.string,
