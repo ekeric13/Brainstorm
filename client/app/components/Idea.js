@@ -111,7 +111,7 @@ var Idea = React.createClass({
     socket.emit('idea change', obj);
   },
   handleStop: function (event, ui) {
-    
+
     this.setState({position: {top: event.clientY, left:event.clientX}});
 
   },
@@ -162,7 +162,7 @@ var Idea = React.createClass({
 
           <form>
             <div>
-              <div className="ideaDescription" ref="body">{this.props.name}</div>
+              <div className="ideaDescription" style={{fontSize:"20px"}} ref="body">{this.props.name}</div>
             </div>
 
             <div className="ideaFooter">
@@ -172,7 +172,7 @@ var Idea = React.createClass({
                   <Interest idea_id={this.props._id} />
                 </div>
 
-              <button className="brainSwarm" style={{display:"inline"}} onClick={this.brainswarm}>Brainswarm</button>
+              <button className="brainSwarm no-margin btn waves-effect waves-light" style={{display:"inline", height: "25px", backgroundColor: "#64b5f6", marginTop: "10px"}} onClick={this.brainswarm}>Brainswarm</button>
               <div>
                 {editForm}
                 {editableOption}
