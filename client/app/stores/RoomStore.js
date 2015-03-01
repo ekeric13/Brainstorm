@@ -31,7 +31,7 @@ var RoomStore = Reflux.createStore({
     .fail(function(error) {
       console.log(error);
     });
-    //this.socketListener();
+    this.socketListener();
   },
 
   create: function(name, callback) {
