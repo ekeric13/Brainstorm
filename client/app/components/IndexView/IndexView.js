@@ -1,23 +1,13 @@
-/**
- * Created by jared on 2/27/15.
- */
-//var currentView;
-//if(this.state.indexView) { //thisIsHomePage
-//  currentView = (
-//    <div>
-//      <CreateRoom />
-//      <Rooms />
-//    </div>
-//  );
 var React = require("react");
 var Router = require('react-router');
 var Navigation = Router.Navigation;
-var RouteHandler = Router.RouteHandler;
-var UserStore = require("../stores/UserStore");
+var Reflux = require("reflux");
+var UserStore = require("../../stores/UserStore");
+var PureRenderMixin = require('react/addons').addons.PureRenderMixin;
 
 var IndexView = React.createClass({
 
-  mixins: [Navigation],
+  mixins: [Navigation, Reflux.ListenerMixin, PureRenderMixin],
 
   getInitialState: function() {
     return {
@@ -26,22 +16,20 @@ var IndexView = React.createClass({
   },
 
   componentDidMount: function(){
-    UserStore.addChangeListener(this.onStoreChange);
+    this.listenTo(UserStore, this.onStoreChange);
   },
 
-  onStoreChange: function() {
+  onStoreChange: function(user) {
+    console.log("user store changed");
+    console.log("user is here", user);
     var self = this;
     if(this.isMounted()) {
       this.setState({ currentUser: UserStore.get() });
     }
-  },
-
-  componentWillUnmount: function(){
-    UserStore.removeChangeListener(this.onStoreChange);
-  },
-
+ },
 
   componentDidUpdate: function(){
+    console.log("updated component", this.state.currentUser);
     if(this.state.currentUser){
       this.transitionTo('/rooms')
     }

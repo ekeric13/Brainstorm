@@ -1,5 +1,5 @@
 var React = require('react');
-var IdeaActions = require("../actions/IdeaActions");
+var IdeaActions = require("../../../actions/IdeaActions");
 var PureRenderMixin = require('react/addons').addons.PureRenderMixin;
 
 var ConfirmationBox = React.createClass({
@@ -8,6 +8,9 @@ var ConfirmationBox = React.createClass({
 
   delete: function(e) {
     e.preventDefault();
+    if(this.props.id === '' || undefined){
+      return
+    }
     if (this.isMounted()) {
        IdeaActions.delete({ id: this.props.id, owner: this.props.owner });
     }

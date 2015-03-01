@@ -59,6 +59,11 @@ io.on('connection', function(client) {
     client.leave(currentBrainswarms);
   });
 
+  client.on('brainswarm leave', function(currentBrainswarms) {
+    // console.log('LEFT ROOM', currentBrainswarms)
+    client.leave(currentBrainswarms);
+  });
+
   client.on('map change', function(editMap){
     //console.log("CHANGES IN ROOMs",client.brainswarm);
     // console.log("THESSE ARE CHANGES",editMap);

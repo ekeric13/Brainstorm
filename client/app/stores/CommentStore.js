@@ -1,20 +1,18 @@
-var AppDispatcher = require("../dispatcher/AppDispatcher");
-var EventEmitter = require('events').EventEmitter;
-var CommentConstants = require("../constants/CommentConstants");
-var PageConstants = require("../constants/PageConstants");
-var PageStore = require("./PageStore");
-var $ = require("jquery");
+var Reflux = require("reflux");
 var _ = require("underscore");
 var socket = io.connect();
-var assign = require("object-assign");
+var CommentActions = require("../actions/CommentActions");
 
-var CHANGE_EVENT = 'change';
+var CommentStore = Reflux.createStore({
 
-var CommentStore = assign({}, EventEmitter.prototype, {
+  listenables: CommentActions,
+
   _comments: [],
 
-  _room: function() {
-    return PageStore.currentRoute.props;
+  _room: "",
+
+  setRoom: function(currentRoom) {
+    this._room = currentRoom;
   },
 
   getAll: function (idea_id) {
@@ -27,7 +25,6 @@ var CommentStore = assign({}, EventEmitter.prototype, {
   socketListener: function(){
     socket.on('comment-change', function(currentComments) {
       this._comments = currentComments;
-      this.emitChange();
     }.bind(this));
   },
 
@@ -37,12 +34,12 @@ var CommentStore = assign({}, EventEmitter.prototype, {
   get: function (room_id) {
     $.ajax({
       type: 'GET',
-      url: '/comments/' + room_id,
+      url: '/comments/' + room_id
     })
     .done(function (comments) {
       this._comments = comments;
       // broadcast that _ideas has changed
-      this.emitChange();
+      this.trigger();
     }.bind(this))
     .fail(function(error) {
       console.error(error);
@@ -50,22 +47,21 @@ var CommentStore = assign({}, EventEmitter.prototype, {
     this.socketListener();
   },
 
-  all: function () {
-    $.ajax({
-      type: 'GET',
-      url: '/comments'
-    })
-    .done(function (comments) {
-      this._comments = comments;
-      this.emitChange();
-    }.bind(this))
-    .fail(function (error) {
-      console.log(error);
-    });
-    this.socketListener();
-  },
+  //all: function () {
+  //  $.ajax({
+  //    type: 'GET',
+  //    url: '/comments'
+  //  })
+  //  .done(function (comments) {
+  //    this._comments = comments;
+  //  }.bind(this))
+  //  .fail(function (error) {
+  //    console.log(error);
+  //  });
+  //  this.socketListener();
+  //},
 
-  create: function (idea_id, name, ownerName) {
+  create: function (idea_id, name) {
     var urlBoolean = false;
     if (name.toString().slice(0,7) === "http://" || name.toString().slice(0,8) === "https://"){
         urlBoolean = true;
@@ -75,16 +71,14 @@ var CommentStore = assign({}, EventEmitter.prototype, {
       url: '/comments/' + idea_id,
       data: {
         name: name,
-        ownerName: ownerName,
         urlBoolean: urlBoolean
       }
     })
     .done(function (comment) {
       this._comments.push(comment);
-
+      this.trigger();
       // broadcast that _comments has changed
-      socket.emit('comment-change', this._comments, this._room());
-      this.emitChange();
+      socket.emit('comment-change', this._comments, this._room);
     }.bind(this))
     .fail(function (error) {
       console.log(error);
@@ -106,10 +100,9 @@ var CommentStore = assign({}, EventEmitter.prototype, {
           comment.name = commentEdit.name;
         }
       }.bind(this));
-
+      this.trigger();
       // broadcast that _comments has changed
-      socket.emit('comment-change', this._comments, this._room());
-      this.emitChange();
+      socket.emit('comment-change', this._comments, this._room);
     }.bind(this))
     .fail(function (error) {
       console.log(error);
@@ -128,75 +121,13 @@ var CommentStore = assign({}, EventEmitter.prototype, {
           this._comments.splice(i, 1);
         }
       }.bind(this));
-
+      this.trigger();
       // broadcast that _comments has changed
-      socket.emit('comment-change', this._comments, this._room());
-      this.emitChange();
+      socket.emit('comment-change', this._comments, this._room);
     }.bind(this))
     .fail(function (error) {
       console.log(error);
     });
-  },
-
-  emitChange: function () {
-    this.emit(CHANGE_EVENT);
-  },
-
-  addChangeListener: function (callback) {
-    this.on(CHANGE_EVENT, callback);
-  },
-
-  removeChangeListener: function (callback) {
-    this.removeListener(CHANGE_EVENT, callback);
-  }
-
-});
-
-AppDispatcher.register(function (payload) {
-  var action = payload.action;
-  var _id;
-  var idea_id;
-  var name;
-  var ownerName;
-
-  switch (action.actionType) {
-    case CommentConstants.COMMENT_GET:
-      CommentStore.all();
-      break;
-
-    case CommentConstants.COMMENT_CREATE:
-      idea_id = action.idea_id;
-      name = action.name.trim();
-      ownerName = action.ownerName;
-
-      if (name !== '') {
-        CommentStore.create(idea_id, name, ownerName);
-      }
-      break;
-
-    case CommentConstants.COMMENT_EDIT:
-      _id = action._id;
-      name = action.name.trim();
-
-      if (name !== '') {
-        CommentStore.edit(_id, name);
-      }
-      break;
-
-    case CommentConstants.COMMENT_DELETE:
-      _id = action._id;
-
-      CommentStore.delete(_id);
-      break;
-
-    case PageConstants.GETROOMDATA:
-      if (action.room_id){
-        CommentStore.get(action.room_id);
-      }
-      break;
-
-    default:
-      return true;
   }
 
 });

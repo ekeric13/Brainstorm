@@ -1,9 +1,10 @@
 var React = require("react");
 var Router = require("react-router");
 var State = Router.State;
-var BrainswarmActions = require("../actions/BrainswarmActions");
-var BrainswarmStore = require("../stores/BrainswarmStore");
+var BrainswarmActions = require("../../actions/BrainswarmActions");
+var BrainswarmStore = require("../../stores/BrainswarmStore");
 var socket = io.connect();
+var PureRenderMixin = require('react/addons').addons.PureRenderMixin;
 
 var mapData;
 
@@ -690,7 +691,7 @@ function createMap(brainswarmId, brainswarm){
 
 var Brainswarm = React.createClass({
 
-  mixins: [ State ],
+  mixins: [ State, PureRenderMixin ],
 
   getInitialState: function(){
     var brainswarmId = this.getParams().brainswarmId;
@@ -739,24 +740,16 @@ var Brainswarm = React.createClass({
     );
   },
 
-  //updateGraph: function(e){
-  //  var brainswarmId = this.getParams().brainswarmId;
-  //  e.preventDefault();
-  //  if (this.isMounted()) {
-  //    this.setState({ currentBrainswarm: BrainswarmStore.findBrainswarm(brainswarmId) });
-  //  }
-  //},
-
   componentDidMount: function(){
     socket.emit('join brainswarm', this.state.brainswarmId);
     createMap(this.state.brainswarmId, this.state.currentBrainswarm);
-   // BrainswarmStore.addChangeListener(this._onChange);
+
 
   },
 
   componentWillUnmount: function(){
     // similar to componentDidMount but also invoked on the server;
-    BrainswarmStore.edit(this.state.brainswarmId, mapData);
+    BrainswarmActions.edit(this.state.brainswarmId, mapData);
     socket.emit('brainswarm leave', this.state.brainswarmId);
   },
 

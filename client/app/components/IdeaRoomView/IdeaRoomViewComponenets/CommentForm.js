@@ -1,5 +1,5 @@
 var React = require("react");
-var CommentActions = require("../actions/CommentActions");
+var CommentActions = require("../../../actions/CommentActions");
 var PureRenderMixin = require('react/addons').addons.PureRenderMixin;
 
 var CommentForm = React.createClass({
@@ -11,7 +11,10 @@ var CommentForm = React.createClass({
 
     var commentBody = this.refs.input.getDOMNode();
     var comment = commentBody.value.trim();
-    //if editing dispatch to editing
+    //if editing dispatch to edit
+    if (comment === ""){
+        return;
+    }
     if (this.props.editing) {
       CommentActions.edit(this.props._id, comment);
     } else { //otherwise dispatch to create

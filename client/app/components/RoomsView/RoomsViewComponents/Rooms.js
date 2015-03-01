@@ -1,18 +1,21 @@
 var React = require("react");
 var Room = require("./Room");
-var RoomStore = require("../stores/RoomStore");
-var IdeaStore = require("../stores/IdeaStore");
+var RoomStore = require("../../../stores/RoomStore");
+var IdeaActions = require("../../../actions/IdeaActions");
+var RoomActions = require("../../../actions/RoomActions");
 var Router = require('react-router');
 var Navigation = Router.Navigation;
+var Reflux = require("reflux");
+var PureRenderMixin = require('react/addons').addons.PureRenderMixin;
 
 var Rooms = React.createClass({
 
-  mixin:[Navigation],
+  mixins: [Navigation, Reflux.ListenerMixin, PureRenderMixin],
 
   propTypes: {
-    id : React.PropTypes.string ,
-    name : React.PropTypes.string ,
-    owner : React.PropTypes.object ,
+    id : React.PropTypes.string,
+    name : React.PropTypes.string,
+    owner : React.PropTypes.object,
     ownerName : React.PropTypes.string
 
   },
@@ -24,20 +27,17 @@ var Rooms = React.createClass({
   },
 
   componentDidMount: function() {
-    RoomStore.all();
-    IdeaStore.all();
-    RoomStore.addChangeListener(this._onChange);
+    this.listenTo(RoomStore, this.onStoreChange);
+    RoomActions.all();
+    IdeaActions.all();
   },
 
-  _onChange: function(){
+  onStoreChange: function(){
     if(this.isMounted()) {
       this.setState({ rooms: RoomStore.getAll() });
     }
   },
 
-  componentWillUnmount: function(){
-     RoomStore.removeChangeListener(this._onChange);
-  },
 
   render: function() {
     var rooms = [];

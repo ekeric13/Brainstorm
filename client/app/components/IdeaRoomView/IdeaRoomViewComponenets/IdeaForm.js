@@ -1,5 +1,5 @@
 var React = require("react");
-var IdeaActions = require("../actions/IdeaActions");
+var IdeaActions = require("../../../actions/IdeaActions");
 // var $ = require("jquery");
 var PureRenderMixin = require('react/addons').addons.PureRenderMixin;
 
@@ -11,7 +11,10 @@ var IdeaForm = React.createClass({
     e.preventDefault();
     // get the value out of the input with ref="name"
     var name = this.refs.name.getDOMNode();
-
+    console.log("idea Name", name, name.value.trim());
+    if (name.value.trim() === ""){
+      return;
+    }
     // if editing send info to edit method in IdeaActions
     if (this.props.editing) {
       var idea = {id: this.props._id};

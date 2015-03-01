@@ -1,12 +1,11 @@
 var React = require("react");
 var RoomCreateForm = require("./RoomCreateForm");
-var UserStore = require("../stores/UserStore");
-var PageActions = require("../actions/PageActions");
-var IdeaStore = require("../stores/IdeaStore");
-var RoomActions = require("../actions/RoomActions");
+var UserStore = require("../../../stores/UserStore");
+var IdeaStore = require("../../../stores/IdeaStore");
+var RoomActions = require("../../../actions/RoomActions");
 var Router = require("react-router");
 var Link = Router.Link;
-
+var Reflux = require("reflux");
 
 function ideaWordCloud(selector, ideaWords){
   function wordCloud(selector) {
@@ -109,6 +108,9 @@ function ideaWordCloud(selector, ideaWords){
 
 
 var Room = React.createClass({
+
+  mixins: [Reflux.ListenerMixin],
+
   getInitialState: function() {
     // set initial editing state to false
     return {
@@ -125,7 +127,7 @@ var Room = React.createClass({
     // this is needed when the edit comes back and emits a change
     // that will force the component to re-render
 
-    IdeaStore.addChangeListener(this._onChange);
+    this.listenTo(IdeaStore, this._onChange);
     var self = this;
     window.setTimeout(function() {
       var ideas = IdeaStore.getAll();
@@ -147,9 +149,6 @@ var Room = React.createClass({
     }
   },
 
-  // componentWillUnmount: function() {
-  //   IdeaStore.removeChangeListener(this._onChange);
-  // },
 
   show: function () {
     if (this.isMounted()) {
@@ -162,7 +161,6 @@ var Room = React.createClass({
     var editForm;
     var currentUser = this.state.currentUser;
     var roomOwner = this.props.owner;
-    console.log("THIS IS ID",this.props._id)
 
     if (this.state.editing) {
       editForm = <RoomCreateForm editing="true" owner={this.props.owner} name={this.props.name} key={this.props._id} _id={this.props._id} />
@@ -174,7 +172,7 @@ var Room = React.createClass({
       if (currentUser._id === roomOwner) {
         roomContent = (
           <div className="room pure-u-1">
-            <span><Link to="roomView" params={{roomId: this.props._id}} className="room-anchor" style={{fontSize: "18px", paddingLeft: "10px"}}>{this.props.name}</Link></span><span className={this.props.name}></span>
+            <span><Link to="ideaRoomView" params={{roomId: this.props._id}} className="room-anchor" style={{fontSize: "18px", paddingLeft: "10px"}}>{this.props.name}</Link></span><span className={this.props.name}></span>
 
             <form className="pure-form pure-g">
                 {editForm}
@@ -191,7 +189,7 @@ var Room = React.createClass({
       else {
         roomContent = (
           <div className="room pure-u-1">
-            <span><Link to="roomView" params={{roomId: this.props._id}} style={{fontSize: "18px", paddingLeft: "10px"}} className="room-anchor">{this.props.name}</Link></span><span className={this.props.name}></span>
+            <span><Link to="ideaRoomView" params={{roomId: this.props._id}} style={{fontSize: "18px", paddingLeft: "10px"}} className="room-anchor">{this.props.name}</Link></span><span className={this.props.name}></span>
           </div>
         );
       }
@@ -213,6 +211,9 @@ var Room = React.createClass({
 
   delete: function(e) {
     e.preventDefault();
+    if(this.props._id === '' || undefined){
+      return;
+    }
     if (this.isMounted()) {
       RoomActions.delete({ id: this.props._id, owner: this.props.owner });
     }

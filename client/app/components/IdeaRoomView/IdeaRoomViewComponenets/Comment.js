@@ -1,7 +1,7 @@
 var React = require("react");
 var CommentForm = require("./CommentForm");
-var UserStore = require("../stores/UserStore");
-var CommentActions = require("../actions/CommentActions");
+var UserStore = require("../../../stores/UserStore");
+var CommentActions = require("../../../actions/CommentActions");
 var PureRenderMixin = require('react/addons').addons.PureRenderMixin;
 
 var Comment = React.createClass({

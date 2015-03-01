@@ -1,6 +1,10 @@
 var React = require("react");
+var PureRenderMixin = require('react/addons').addons.PureRenderMixin;
 
 var SearchBar = React.createClass({
+
+  mixins: PureRenderMixin,
+
     handleChange: function() {
         this.props.onUserInput(
             this.refs.filterTextInput.getDOMNode().value,

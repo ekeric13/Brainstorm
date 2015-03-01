@@ -1,8 +1,13 @@
 var React = require("react");
-var RoomStore = require("../stores/RoomStore");
+var RoomActions = require("../../../actions/RoomActions");
+var RoomStore = require("../../../stores/RoomStore");
 var _ = require("underscore");
+var Reflux = require("reflux");
 
 var RoomTitle = React.createClass({
+
+  mixins: [Reflux.ListenerMixin],
+
   getInitialState: function() {
     return {
       room:
@@ -13,8 +18,8 @@ var RoomTitle = React.createClass({
   },
 
   componentDidMount: function() {
-    RoomStore.all();
-    RoomStore.addChangeListener(this.onStoreChange);
+    RoomActions.all();
+    this.listenTo(RoomStore, this.onStoreChange);
   },
 
   onStoreChange: function(){
@@ -27,9 +32,6 @@ var RoomTitle = React.createClass({
     }
   },
 
-  // componentWillUnmount: function() {
-  //   RoomStore.removeChangeListener(this.onStoreChange);
-  // },
 
   render: function() {
     var title;

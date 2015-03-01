@@ -1,4 +1,5 @@
 var React = require("react");
+var PureRenderMixin = require('react/addons').addons.PureRenderMixin;
 
 var i1 = 0;
 var i2 = 0;
@@ -20,6 +21,8 @@ var brainstormGif5 = '<video src="http://share.gifyoutube.com/y4YRxV.webm" autop
 var brainstormGif6 = '<video src="http://share.gifyoutube.com/KeD1k9.webm" autoplay="" loop="" id="video" className="tc-videoHost"></video>';
 
 var About = React.createClass({
+
+  mixins: PureRenderMixin,
 
   swap1: function(e){
     console.log("swapped", e.target);

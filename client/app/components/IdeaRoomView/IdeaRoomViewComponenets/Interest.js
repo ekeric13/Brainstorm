@@ -1,9 +1,15 @@
 var React = require("react");
-var UserStore = require("../stores/UserStore");
-var InterestActions = require("../actions/InterestActions");
-var InterestStore = require("../stores/InterestStore");
+var UserStore = require("../../../stores/UserStore");
+var InterestActions = require("../../../actions/InterestActions");
+var InterestStore = require("../../../stores/InterestStore");
+var Reflux = require("reflux");
+var PureRenderMixin = require('react/addons').addons.PureRenderMixin;
+
 
 var Interest = React.createClass({
+
+  mixins: [Reflux.ListenerMixin, PureRenderMixin],
+
   _liked: false,
 
   checkLiked: function (interests) {
@@ -36,19 +42,15 @@ var Interest = React.createClass({
   },
 
   componentDidMount: function () {
-    InterestStore.addChangeListener(this.onStoreChange);
+    this.listenTo(InterestStore, this.onStoreChange);
   },
 
-  onStoreChange: function(){
+  onStoreChange: function(interests){
     if(this.isMounted()) {
       var interests = InterestStore.getAll(this.props.idea_id);
       this.checkLiked(interests);
       this.setState({ interests: interests });
     }
-  },
-
-  componentWillUnmount: function() {
-     InterestStore.removeChangeListener(this.onStoreChange);
   },
 
   render: function () {

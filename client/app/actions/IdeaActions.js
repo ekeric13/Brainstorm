@@ -1,28 +1,11 @@
-var AppDispatcher = require("../dispatcher/AppDispatcher");
-var IdeaConstants = require("../constants/IdeaConstants");
+var Reflux = require("reflux");
 
-var IdeaActions = {
-  create: function(room_id, name) {
-    AppDispatcher.handleViewAction({
-      actionType: IdeaConstants.IDEA_CREATE,
-      room_id: room_id,
-      name: name
-    });
-  },
-
-  edit: function(idea) {
-    AppDispatcher.handleViewAction({
-      actionType: IdeaConstants.IDEA_EDIT,
-      idea: idea
-    });
-  },
-
-  delete: function(idea) {
-    AppDispatcher.handleViewAction({
-      actionType: IdeaConstants.IDEA_DELETE,
-      idea: idea
-    });
-  }
-};
+var IdeaActions = Reflux.createActions([
+  "create",
+  "edit",
+  "get",
+  "delete",
+  "all"
+]);
 
 module.exports = IdeaActions;

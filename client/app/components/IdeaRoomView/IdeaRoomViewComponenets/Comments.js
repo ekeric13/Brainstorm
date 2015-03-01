@@ -1,12 +1,15 @@
 var React = require("react");
 var CommentForm = require("./CommentForm");
 var Comment = require("./Comment");
-var CommentStore = require("../stores/CommentStore");
+var CommentStore = require("../../../stores/CommentStore");
 var PureRenderMixin = require('react/addons').addons.PureRenderMixin;
+var Reflux = require("reflux");
+
+
 
 var Comments = React.createClass({
 
- mixins: [PureRenderMixin],
+ mixins: [PureRenderMixin, Reflux.ListenerMixin],
 
  propTypes: {
   _id: React.PropTypes.string,
@@ -35,18 +38,16 @@ var Comments = React.createClass({
 
   //when we mount the view setup event listener for store changes
   componentDidMount: function () {
-    CommentStore.addChangeListener(this.onStoreChange);
+    this.listenTo(CommentStore, this.onStoreChange);
   },
 
-  onStoreChange: function(){
+  onStoreChange: function(comments){
+    console.log("possible comment store change", comments);
     if (this.isMounted()) {
       this.setState({ comments: CommentStore.getAll(this.props.idea_id) });
     }
   },
 
-  componentWillUnmount: function(){
-     CommentStore.removeChangeListener(this.onStoreChange);
-  },
 
   show: function (e) {
     e.preventDefault();

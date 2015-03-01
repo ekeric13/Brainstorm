@@ -1,20 +1,18 @@
-var AppDispatcher = require("../dispatcher/AppDispatcher");
-var EventEmitter = require('events').EventEmitter;
-var InterestConstants = require("../constants/InterestConstants");
-var PageConstants = require("../constants/PageConstants");
-var PageStore = require("./PageStore");
-var $ = require("jquery");
+var Reflux = require("reflux");
 var _ = require("underscore");
 var socket = io.connect();
-var assign = require("object-assign");
+var InterestActions = require("../actions/InterestActions");
 
-var CHANGE_EVENT = 'change';
+var InterestStore = Reflux.createStore({
 
-var InterestStore = assign({}, EventEmitter.prototype, {
+  listenables: InterestActions,
+
   _interests: [],
 
-  _room: function() {
-    return PageStore.currentRoute.props;
+  _room: "",
+
+  setRoom: function(currentRoom) {
+    this._room = currentRoom;
   },
 
   getAll: function (idea_id) {
@@ -28,7 +26,6 @@ var InterestStore = assign({}, EventEmitter.prototype, {
   socketListener: function(){
     socket.on('interest-change', function(currentInterests) {
       this._interests = currentInterests;
-      this.emitChange();
     }.bind(this));
   },
 
@@ -40,7 +37,7 @@ var InterestStore = assign({}, EventEmitter.prototype, {
     .done(function (interests) {
       this._interests = interests;
       // broadcast that _ideas has changed
-      this.emitChange();
+      this.trigger();
     }.bind(this))
     .fail(function(error) {
       console.error(error);
@@ -57,8 +54,8 @@ var InterestStore = assign({}, EventEmitter.prototype, {
       this._interests.push(interest);
 
       // broadcast that _interests has changed
-      socket.emit('interest-change', this._interests, this._room());
-      this.emitChange();
+      this.trigger();
+      socket.emit('interest-change', this._interests, this._room);
     }.bind(this))
     .fail(function(error) {
       console.log(error);
@@ -79,58 +76,14 @@ var InterestStore = assign({}, EventEmitter.prototype, {
       }.bind(this));
 
       // broadcast that _comments has changed
-      socket.emit('interest-change', this._interests, this._room());
-      this.emitChange();
+      this.trigger();
+      socket.emit('interest-change', this._interests, this._room);
     }.bind(this))
     .fail(function (error) {
       console.log(error);
     });
-  },
-
-  emitChange: function() {
-    this.emit(CHANGE_EVENT);
-  },
-
-  addChangeListener: function(callback) {
-    this.on(CHANGE_EVENT, callback);
-  },
-
-  removeChangeListener: function(callback) {
-    this.removeListener(CHANGE_EVENT, callback);
   }
 });
 
-AppDispatcher.register(function(payload) {
-  var action = payload.action;
-  var idea_id = action.idea_id;
-  var _id;
-
-  switch(action.actionType) {
-    case InterestConstants.INTEREST_GET:
-      InterestStore.all();
-      break;
-
-    case InterestConstants.INTEREST_CREATE:
-      idea_id = action.idea_id;
-
-      InterestStore.create(idea_id);
-      break;
-
-    case InterestConstants.INTEREST_DELETE:
-      _id = action._id;
-
-      InterestStore.delete(_id);
-      break;
-
-    case PageConstants.GETROOMDATA:
-      if (action.room_id){
-        InterestStore.get(action.room_id);
-      }
-      break;
-
-    default:
-      return true;
-  }
-});
 
 module.exports = InterestStore;

@@ -2,13 +2,13 @@ var React = require("react");
 var Router = require('react-router');
 var Navigation = Router.Navigation;
 var UserAuth = require("./UserAuth");
-var PageActions = require("../actions/PageActions");
 var UserStore = require("../stores/UserStore");
 var Link = Router.Link;
-
+var Reflux = require("reflux");
+var PureRenderMixin = require('react/addons').addons.PureRenderMixin;
 var PageNav = React.createClass({
 
-  mixins: [Navigation],
+  mixins: [Navigation, Reflux.ListenerMixin, PureRenderMixin],
 
   getInitialState: function() {
     return {
@@ -16,12 +16,14 @@ var PageNav = React.createClass({
     };
   },
 
+  onStoreChange: function(){
+    if(this.isMounted()) {
+      this.setState({ currentUser: UserStore.get() });
+    }
+  },
+
   componentDidMount: function(){
-    UserStore.addChangeListener(function() {
-      if(this.isMounted()) {
-        this.setState({ currentUser: UserStore.get() });
-      }
-    }.bind(this));
+    this.listenTo(UserStore, this.onStoreChange)
   },
 
   handleWelcome:function(){
@@ -31,11 +33,6 @@ var PageNav = React.createClass({
     } else {
       this.transitionTo('/')
     }
-  },
-
-  handleAbout:function(){
-    //dispatch a navigate to about on click
-    this.transitionTo('/about')
   },
 
   render:function(){
