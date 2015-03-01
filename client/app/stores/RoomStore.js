@@ -25,6 +25,7 @@ var RoomStore = Reflux.createStore({
     })
     .done(function(rooms) {
       this._rooms = rooms;
+      this.socketListener();
       this.trigger();
     }.bind(this))
     .fail(function(error) {
@@ -44,7 +45,8 @@ var RoomStore = Reflux.createStore({
 
       // broadcast that _rooms has changed
     //  socket.emit('room-change', this._rooms);
-    this.trigger();
+      this.trigger();
+      this.socketListener();
       callback(room._id);
     }.bind(this))
     .fail(function(error) {
@@ -61,6 +63,7 @@ var RoomStore = Reflux.createStore({
     .done(function(roomEdit) {
       // look through the rooms until finding a match
       // for id and then update the name property
+      this.socketListener();
       this._rooms.forEach(function(room) {
         if(room._id === roomEdit._id) {
           room.name = roomEdit.name;
@@ -92,6 +95,7 @@ var RoomStore = Reflux.createStore({
         //  socket.emit('room-change', this._rooms);
           // return this.emitChange();
         }
+        this.socketListener();
       }.bind(this));
       this.trigger();
     }.bind(this))

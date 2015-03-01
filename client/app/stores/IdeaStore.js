@@ -22,6 +22,7 @@ var IdeaStore = Reflux.createStore({
 
   socketListener: function(){
     socket.on('idea-change', function(currentIdeas) {
+      console.log("IDEAS CHANGED!!!")
       this._ideas = currentIdeas;
     }.bind(this));
   },
