@@ -26,6 +26,7 @@ var InterestStore = Reflux.createStore({
   socketListener: function(){
     socket.on('interest-change', function(currentInterests) {
       this._interests = currentInterests;
+      this.trigger();
     }.bind(this));
   },
 

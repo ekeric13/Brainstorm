@@ -25,6 +25,7 @@ var CommentStore = Reflux.createStore({
   socketListener: function(){
     socket.on('comment-change', function(currentComments) {
       this._comments = currentComments;
+      this.trigger();
     }.bind(this));
   },
 
