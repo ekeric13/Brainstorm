@@ -22,7 +22,6 @@ var IdeaStore = Reflux.createStore({
 
   socketListener: function(){
     socket.on('idea-change', function(currentIdeas) {
-      console.log("IDEAS CHANGED!!!")
       this._ideas = currentIdeas;
       this.trigger();
     }.bind(this));
@@ -70,9 +69,9 @@ var IdeaStore = Reflux.createStore({
     .done(function (idea) {
       this._ideas.push(idea);
       // broadcast that _ideas has changed
-      console.log("room's id", room_id);
       socket.emit('idea-change', this._ideas, room_id);
       this.trigger();
+      this.socketListener();
     }.bind(this))
     .fail(function(error) {
       console.error(error);
@@ -80,7 +79,6 @@ var IdeaStore = Reflux.createStore({
   },
 
   edit: function(idea) {
-    console.log("getting ready for ajax");
     $.ajax({
       type: 'PUT',
       url: '/ideas/' + idea.id,
@@ -95,7 +93,6 @@ var IdeaStore = Reflux.createStore({
           idea.position = ideaEdit.position;
 
           // broadcast that _ideas has changed
-          console.log("this room", this._room);
           socket.emit('idea-change', this._ideas, this._room);
           // return this.emitChange();
         }
@@ -114,7 +111,6 @@ var IdeaStore = Reflux.createStore({
       data: idea
     })
     .done(function(oldId) {
-      console.log("idea deleted")
       // find deleted idea by oldId in _ideas and remove
       this._ideas.forEach(function(idea, index) {
         if(idea._id === oldId._id) {
