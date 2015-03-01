@@ -45,7 +45,7 @@ var RoomStore = Reflux.createStore({
       this._rooms.push(room);
 
       // broadcast that _rooms has changed
-    //  socket.emit('room-change', this._rooms);
+      socket.emit('room-change', this._rooms);
       this.trigger();
       this.socketListener();
       callback(room._id);
@@ -69,7 +69,7 @@ var RoomStore = Reflux.createStore({
         if(room._id === roomEdit._id) {
           room.name = roomEdit.name;
           // broadcast that _rooms has changed
-        //  socket.emit('room-change', this._rooms);
+         socket.emit('room-change', this._rooms);
           // return this.emitChange();
         }
       }.bind(this));
@@ -93,7 +93,7 @@ var RoomStore = Reflux.createStore({
           this._rooms.splice(index, 1);
 
           // broadcast that _rooms has changed
-        //  socket.emit('room-change', this._rooms);
+         socket.emit('room-change', this._rooms);
           // return this.emitChange();
         }
         this.socketListener();
