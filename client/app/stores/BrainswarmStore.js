@@ -15,6 +15,7 @@ var BrainswarmStore = Reflux.createStore({
   socketListener: function(){
     socket.on('brainswarm-change', function(currentBrainswarms) {
       this._brainswarms = currentBrainswarms;
+      this.trigger();
     }.bind(this));
   },
 
