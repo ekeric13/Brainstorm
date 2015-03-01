@@ -6,11 +6,10 @@ var RoomActions = require("../../../actions/RoomActions");
 var Router = require('react-router');
 var Navigation = Router.Navigation;
 var Reflux = require("reflux");
-var PureRenderMixin = require('react/addons').addons.PureRenderMixin;
 
 var Rooms = React.createClass({
 
-  mixins: [Navigation, Reflux.ListenerMixin, PureRenderMixin],
+  mixins: [Navigation, Reflux.ListenerMixin],
 
   propTypes: {
     id : React.PropTypes.string,
