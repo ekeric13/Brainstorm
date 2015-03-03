@@ -3,7 +3,8 @@ var Reflux = require("reflux");
 var BrainswarmActions = Reflux.createActions([
   'create',
   'edit',
-  'getBrainswarm'
+  'getBrainswarm',
+  'getBrainswarmById'
 ]);
 
 module.exports = BrainswarmActions;

@@ -696,9 +696,22 @@ var Brainswarm = React.createClass({
   getInitialState: function(){
     var brainswarmId = this.getParams().brainswarmId;
     var currentBrainswarm = BrainswarmStore.findBrainswarm(brainswarmId);
-
+    // if user refreshes page create the brainswarm map
+    var currentBrainswarmBackup;
+    if (currentBrainswarm === undefined){
+      BrainswarmActions.getBrainswarmById(brainswarmId, function(backupBrainswarm){
+        currentBrainswarmBackup = backupBrainswarm;
+        createMap(brainswarmId, backupBrainswarm);
+      });
+    }
+    // create a set interval function so that if user happens to refresh the page
+    // then the map is most likely saved
+    var self = this;
+    window.setInterval(function(){
+      BrainswarmActions.edit(self.state.brainswarmId, mapData);
+    }, 5000)
     return {
-      currentBrainswarm: currentBrainswarm,
+      currentBrainswarm: currentBrainswarm || currentBrainswarmBackup,
       brainswarmId: brainswarmId
     }
   },
@@ -743,7 +756,6 @@ var Brainswarm = React.createClass({
   componentDidMount: function(){
     socket.emit('join brainswarm', this.state.brainswarmId);
     createMap(this.state.brainswarmId, this.state.currentBrainswarm);
-
 
   },
 

@@ -48,10 +48,7 @@ module.exports = {
         .then(function(foundBrain) {
           // if the brainswarm is found update the name and save
           if (foundBrain) {
-            console.log("HEREEEEEE")
             foundBrain.map = req.body.map;
-            console.log("map", req.body.map);
-            console.log("req.body", req.body);
             //add more to update dont know what
             foundBrain.save(function(err) {
               if (err) {
@@ -67,17 +64,28 @@ module.exports = {
     },
 
     getBrainswarm: function(req, res, next){
+      // Param most likely an idea Id, could be brainswarm Id
       var getBrainswarm = Q.nbind(Brainswarm.find, Brainswarm);
+      var param = req.params.idea_id;
       var query = req.params.idea_id ? { idea: req.params.idea_id } : {};
-      console.log("Look at this QUERY", query)
       getBrainswarm(query)
         .then(function(allBrainswarms) {
-        // if there are brainswarm send them in response
-        if(allBrainswarms) {
+        // if idea_id query returned data, send response
+        if(allBrainswarms.length > 0) {
           res.json(allBrainswarms);
+        } else {
+          // if param is not an idea ID, treat as if it is a brainswarm ID
+          var query2 = { _id: param };
+          getBrainswarm(query2)
+            .then(function(brainswarm) {
+              if (brainswarm){
+                res.json(brainswarm);
+              }
+            })
         }
       })
       .fail(function(error) {
+        console.log("failed")
         next(error);
       });
     }

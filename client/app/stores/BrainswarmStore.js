@@ -14,7 +14,9 @@ var BrainswarmStore = Reflux.createStore({
 
   socketListener: function(){
     socket.on('brainswarm-change', function(currentBrainswarms) {
-      this._brainswarms = currentBrainswarms;
+      if (currentBrainswarms){
+        this._brainswarms = currentBrainswarms;
+      }
       this.trigger();
     }.bind(this));
   },
@@ -43,6 +45,7 @@ var BrainswarmStore = Reflux.createStore({
         }
       }
       this.socketListener();
+      socket.emit('brainswarm-change', this._brainswarms);
       this.trigger();
       if (tempBrainswarm) {
         return callback(tempBrainswarm);
@@ -63,6 +66,22 @@ var BrainswarmStore = Reflux.createStore({
          return brainswarms[i];
        }
     }
+  },
+
+  getBrainswarmById: function(brainswarm_id, callback) {
+    // This ajax call sends the brainswarm_id as an "idea_id" to the routes
+    $.ajax({
+      type: "GET",
+      url: "/brainswarms/" + brainswarm_id
+    })
+    .done(function(brainswarmData){
+      this._brainswarms.push(brainswarmData);
+      this.trigger();
+      callback(brainswarmData[0]);
+    }.bind(this))
+    .fail(function(error) {
+      console.error(error);
+    });
   },
 
   create: function(idea_id, name, callback) {

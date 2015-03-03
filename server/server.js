@@ -43,6 +43,7 @@ io.on('connection', function(client) {
   client.on('brainswarm-change', function(currentBrainswarms){
     client.broadcast.emit('brainswarm-change', currentBrainswarms);
   });
+
   //
 //
 //
