@@ -81,6 +81,15 @@ var About = React.createClass({
           <li className="header-text">6. Create a desired path for achieving your idea  </li>
           <li><div onClick={this.swap6} className="target"><img className="image" src="styles/assets/brainstorm6.png"/></div></li>
         </ul>
+        <h3> More Info </h3>
+        <ul>
+          <li className="header-text">Click <a href="http://brainplay.wikia.com/wiki/Brainswarming" target="_blank">here</a> for an in-depth reading on brainswarming.</li>
+          <li className="header-text2"> In brainswarming you create resources, which are nouns, which are things you can use to help achieve your idea. In the example below they are truck, road, and underpass. You place these at the bottom of your brainswarm.  </li>
+          <li className="header-text2"> You also create actions, which are verbs, which you perform on the resource in order to connect a resource to an idea. In the example below they are slide truck, raise road, elevate underpass, etc. You place these at the top of your brainswarm. </li>
+          <li className="header-text2"> Try to connect your resources and actions in order to create an actionable path to solve your idea.</li>
+          <li><img className="image" src="styles/assets/brainswarm_example1.png"/></li>
+          <li><img className="image" src="styles/assets/brainswarm_example2.png"/></li>
+        </ul>
       </div>
 
     );
