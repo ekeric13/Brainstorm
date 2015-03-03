@@ -29,7 +29,7 @@ var UserAuth = React.createClass({
     var text = this.state.currentUser ? 'Logout' : 'Login';
     return (
       <div>
-          <li><a onClick={this.handleClick} href='/auth/github'>{text}</a></li>
+          <li><a onClick={this.handleClick} href='/auth/google'>{text}</a></li>
           <li><a onClick={this.handleClick} href='/auth/github'>Github</a></li>
           <li><a onClick={this.handleClick} href='/auth/facebook'>Facebook</a></li>
           <li><a onClick={this.handleClick} href='/auth/google'>Google</a></li>
