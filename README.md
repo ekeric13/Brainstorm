@@ -2,11 +2,12 @@
 
 ![](http://i.imgur.com/wuEHk5r.png?1)
 
-This app is built to make the process of brainstorming and idea sharing easier.
+Brainstormer is built to make the process of brainstorming and idea sharing easier.
 
 It leverages [React](https://github.com/facebook/react), [Flux](https://github.com/facebook/flux), and [Socket.io](https://github.com/Automattic/socket.io) to create a truly seamless user and collaborative experience.
 
 [Traditional brainstorming is broken.](https://hbr.org/2014/03/why-you-should-stop-brainstorming)
+We anchor onto each others ideas stemming our own creative process, people with strong personalities tend to dominate the conversation, and overall it is just very inefficient.
 
 So we created a software solution for this problem. Introducing brainswarming:
 
