@@ -332,6 +332,7 @@ path.link.selected {
 
 .ideaDescription {
   font-size:100%;
+  line-height: 110%;
   font-weight:bold;
   padding-bottom:10px;
 }
@@ -494,7 +495,12 @@ path.link.selected {
   font-size: 22px;
 }
 
-.brainswarm {
+.header-text2{
+  font-size: 16px;
+}
+
+.brainswarm-btn {
+  margin-top: 10px
 
 }
 
