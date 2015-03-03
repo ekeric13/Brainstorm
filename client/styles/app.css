@@ -205,25 +205,37 @@ h2 {
 }
 
 /*For d3 chart*/
+.brainswarm-section{
+  width: 100%;
+  margin: auto;
+  height: 700px;
+}
+
+#legendSection{
+    width: 24%;
+    float: left;
+
+    /*padding: 1em;*/
+    z-index: 5;
+}
+
+.legend{
+  border: 2px solid #EEEEEE;
+  border-radius: 5px;
+
+}
+
+#graph{
+  margin-left: 25%;
+  height: 700px;
+}
+
 .toolbox{
-    position: absolute;
-    bottom: 100px;
-    left: 0;
+
+    /*width: 25%;*/
     margin-bottom: 0.5em;
     margin-left: 1em;
     border-color: transparent;
-    border-radius: 5px;
-    padding: 1em;
-    z-index: 5;
-}
-#legend{
-    position: absolute;
-    top: 150px;
-    left: 0;
-    margin-bottom: 0.5em;
-    margin-left: 1em;
-    margin-right: 1em;
-    border: 2px solid #EEEEEE;
     border-radius: 5px;
     padding: 1em;
     z-index: 5;
