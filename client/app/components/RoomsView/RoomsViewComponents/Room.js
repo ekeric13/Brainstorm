@@ -78,16 +78,12 @@ function ideaWordCloud(selector, ideaWords){
   //Remove punctation and repeated words. Compute a random
   // size attribute for each word.
   function getWords(i) {
-    function unique(value, index, self) {
-        return self.indexOf(value) === index;
-    }
 
     return words[i]
             .replace(/[!\.,:;\?]/g, '')
             .split(' ')
-            .filter(unique)
             .map(function(d) {
-              return {text: d, size: 12 + Math.random() * 5};
+              return {text: d, size: 14 + Math.random() * 5};
             })
   }
 

@@ -53,10 +53,10 @@ a:hover {
 }
 
 .btn{
-  background-color: #7c4dff !important
+  background-color: #7c4dff
 }
 .btn:hover{
-  background-color: #7c4dff
+  background-color: #7e57c2
 }
 button:focus{
   background-color: #7c4dff
