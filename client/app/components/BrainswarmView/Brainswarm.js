@@ -690,7 +690,7 @@ var Brainswarm = React.createClass({
     window.setInterval(function(){
       BrainswarmActions.edit(self.state.brainswarmId, mapData);
       socket.emit('map change', mapData);
-    }, 3000)
+    }, 10000)
     return {
       currentBrainswarm: currentBrainswarm || currentBrainswarmBackup,
       brainswarmId: brainswarmId

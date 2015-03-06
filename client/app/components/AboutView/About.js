@@ -7,18 +7,18 @@ var i3 = 0;
 var i4 = 0;
 var i5 = 0;
 var i6 = 0;
-var brainstormScreenShot1 = '<img style={{width: 60%}} className="image" src="styles/assets/brainstorm1.png"/>';
-var brainstormScreenShot2 = '<img style={{width: 60%}} className="image" src="styles/assets/brainstorm2.png"/>';
-var brainstormScreenShot3 = '<img style={{width: 60%}} className="image" src="styles/assets/brainstorm3.png"/>';
-var brainstormScreenShot4 = '<img style={{width: 60%}} className="image" src="styles/assets/brainstorm4.png"/>';
-var brainstormScreenShot5 = '<img style={{width: 60%}} className="image" src="styles/assets/brainstorm5.png"/>';
-var brainstormScreenShot6 = '<img style={{width: 60%}} className="image" src="styles/assets/brainstorm6.png"/>';
-var brainstormGif1 = '<video src="http://share.gifyoutube.com/v1q4WP.webm" autoplay="" loop="" id="video" className="tc-videoHost" style={{width: 60%}}></video>';
-var brainstormGif2 = '<video src="http://share.gifyoutube.com/yg0ODA.webm" autoplay="" loop="" id="video" className="tc-videoHost" style={{width: 60%}}></video>';
-var brainstormGif3 = '<video src="http://share.gifyoutube.com/vnpGD9.webm" autoplay="" loop="" id="video" className="tc-videoHost" style={{width: 60%}}></video>';
-var brainstormGif4 = '<video src="http://share.gifyoutube.com/vq58z2.webm" autoplay="" loop="" id="video" className="tc-videoHost" style={{width: 60%}}></video>';
-var brainstormGif5 = '<video src="http://share.gifyoutube.com/y4YRxV.webm" autoplay="" loop="" id="video" className="tc-videoHost" style={{width: 60%}}></video>';
-var brainstormGif6 = '<video src="http://share.gifyoutube.com/KeD1k9.webm" autoplay="" loop="" id="video" className="tc-videoHost" style={{width: 60%}}></video>';
+var brainstormScreenShot1 = '<img style="width: 60%" className="image" src="styles/assets/brainstorm1.png"/>';
+var brainstormScreenShot2 = '<img style="width: 60%" className="image" src="styles/assets/brainstorm2.png"/>';
+var brainstormScreenShot3 = '<img style="width: 60%" className="image" src="styles/assets/brainstorm3.png"/>';
+var brainstormScreenShot4 = '<img style="width: 60%" className="image" src="styles/assets/brainstorm4.png"/>';
+var brainstormScreenShot5 = '<img style="width: 60%" className="image" src="styles/assets/brainstorm5.png"/>';
+var brainstormScreenShot6 = '<img style="width: 60%" className="image" src="styles/assets/brainstorm6.png"/>';
+var brainstormGif1 = '<video src="http://share.gifyoutube.com/v1q4WP.webm" autoplay="" loop="" id="video" className="tc-videoHost" style="width: 60%"></video>';
+var brainstormGif2 = '<video src="http://share.gifyoutube.com/yg0ODA.webm" autoplay="" loop="" id="video" className="tc-videoHost" style="width: 60%"></video>';
+var brainstormGif3 = '<video src="http://share.gifyoutube.com/vnpGD9.webm" autoplay="" loop="" id="video" className="tc-videoHost" style="width: 60%"></video>';
+var brainstormGif4 = '<video src="http://share.gifyoutube.com/vq58z2.webm" autoplay="" loop="" id="video" className="tc-videoHost" style="width: 60%"></video>';
+var brainstormGif5 = '<video src="http://share.gifyoutube.com/y4YRxV.webm" autoplay="" loop="" id="video" className="tc-videoHost" style="width: 60%"></video>';
+var brainstormGif6 = '<video src="http://share.gifyoutube.com/KeD1k9.webm" autoplay="" loop="" id="video" className="tc-videoHost" style="width: 60%"></video>';
 
 var About = React.createClass({
 
