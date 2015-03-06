@@ -152,7 +152,7 @@ var Idea = React.createClass({
 
               <form>
                 <div>
-                  <div className="ideaDescription" style={{fontSize:"20px"}} ref="body">{this.props.name}</div>
+                  <div className="ideaDescription" style={{fontSize:"1.5rem"}} ref="body">{this.props.name}</div>
                 </div>
 
                 <div className="ideaFooter">
@@ -162,7 +162,7 @@ var Idea = React.createClass({
                     <Interest idea_id={this.props._id} />
                   </div>
 
-                  <button className="brainswarm-btn no-margin btn waves-effect waves-light" style={{display:"inline", height: "25px", backgroundColor: "rgba(198, 227, 250, 0.4)", color: "black", marginTop: "10px", padding: "0px 6px"}} onClick={this.brainswarm}>Brainswarm</button>
+                  <button className="brainswarm-btn no-margin btn waves-effect waves-light" style={{display:"inline", backgroundColor: "rgba(198, 227, 250, 0.4)", color: "black", marginTop: "15px", padding: "0px 8px"}} onClick={this.brainswarm}>Brainswarm</button>
                   <div>
                 {editForm}
                 {editableOption}

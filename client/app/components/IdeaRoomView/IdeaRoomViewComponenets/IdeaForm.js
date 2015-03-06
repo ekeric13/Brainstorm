@@ -59,7 +59,7 @@ var IdeaForm = React.createClass({
     // if editing an "Edit" button will show otherwise a "Create"
     return (
       <form className="auth-check" ref="form" onSubmit={this.handleSubmit}>
-        <input className="postfix" type="text" ref="name" defaultValue={this.props.name} placeholder="Add an Idea" />
+        <input className="postfix" style={{fontSize: "25px"}} type="text" ref="name" defaultValue={this.props.name} placeholder="Add an Idea" />
         <button className="no-margin btn waves-effect waves-light" type="submit" ref="submit" >{this.props.editing ? "Edit Idea" : "Create"}</button>
         <div className="timer" style={{display:"inline"}}>
           <span>{this.props.editing ? "" : "   5 min Timer:"} </span>

@@ -12,7 +12,7 @@ a:hover {
 }
 
 #main {
-  max-width:1060px;
+  max-width: 90%;
   margin:0 auto;
   z-index: 1;
 }
@@ -32,8 +32,8 @@ a:hover {
 .hero-text{
   position: absolute;
   top: 22%;
-  left: 20%;
-  font-size: 6em;
+  left: 25%;
+  font-size: 6rem;
   color: white;
   font-family: GillSans, Calibri, Trebuchet, sans-serif;
   letter-spacing: 2px;
@@ -43,8 +43,8 @@ a:hover {
 .hero-tagline{
   position: absolute;
   top: 37%;
-  left: 27%;
-  font-size: 4em;
+  left: 32%;
+  font-size: 4rem;
   font-family: GillSans, Calibri, Trebuchet, sans-serif;
   letter-spacing: 1px;
   font-weight: 300;
@@ -95,6 +95,7 @@ form .pure-button:last-of-type {
 input.postfix {
   margin-bottom:0.5em;
   background-color: white;
+  font-size: 1.25rem;
 }
 
 /*background-color: rgba(202, 202, 202, 0.37);
@@ -243,6 +244,7 @@ h2 {
     border-radius: 5px;
     padding: 1em;
     z-index: 5;
+    text-align: center;
 }
 
 #toolbox input{
@@ -260,6 +262,8 @@ h2 {
 
 #download-input{
     margin: 0 0.5em;
+    width: 50%;
+    height: 100%;
 }
 
 .conceptG text{
@@ -496,11 +500,11 @@ path.link.selected {
 }
 
 .header-text{
-  font-size: 22px;
+  font-size: 2rem;
 }
 
 .header-text2{
-  font-size: 16px;
+  font-size: 1.5rem;
 }
 
 .brainswarm-btn {
@@ -512,7 +516,7 @@ path.link.selected {
 }
 
 .brainstormer {
-  font-size: 18px;
+  font-size: 1.5rem;
   font-weight: 700;
   cursor: pointer;
 }
@@ -534,11 +538,15 @@ path.link.selected {
 }
 
 .logout-user{
-  padding-right: 10px;
-  padding-left: 10px;
+  padding-right: 15px;
+  padding-left: 15px;
   cursor: pointer;
 }
 
 .logout-user:hover{
   text-decoration: underline;
+}
+
+.legend-text{
+  font-size: 1.25rem;
 }

@@ -11,8 +11,10 @@ function ideaWordCloud(selector, ideaWords){
   function wordCloud(selector) {
 
     var fill = d3.scale.category20();
-
     var selector = selector.split(" ")[0]
+    if (selector = ".room" || ".idea" || ".comments" || ".rooms" || ".hero") {
+      selector = undefined;
+    }
 
     var svg = d3.select(selector).append("svg")
                 .attr("width", 150)
@@ -175,7 +177,7 @@ var Room = React.createClass({
       if (currentUser._id === roomOwner) {
         roomContent = (
           <div className="room pure-u-1">
-            <span><Link to="ideaRoomView" params={{roomId: this.props._id}} className="room-anchor" style={{fontSize: "18px", paddingLeft: "10px"}}>{this.props.name}</Link></span><span className={this.props.name}></span>
+            <span><Link to="ideaRoomView" params={{roomId: this.props._id}} className="room-anchor" style={{fontSize: "1.5rem", paddingLeft: "10px"}}>{this.props.name}</Link></span><span className={this.props.name}></span>
 
             <form className="pure-form pure-g">
                 {editForm}
@@ -192,7 +194,7 @@ var Room = React.createClass({
       else {
         roomContent = (
           <div className="room pure-u-1">
-            <span><Link to="ideaRoomView" params={{roomId: this.props._id}} style={{fontSize: "18px", paddingLeft: "10px"}} className="room-anchor">{this.props.name}</Link></span><span className={this.props.name}></span>
+            <span><Link to="ideaRoomView" params={{roomId: this.props._id}} style={{fontSize: "1.5rem", paddingLeft: "10px"}} className="room-anchor">{this.props.name}</Link></span><span className={this.props.name}></span>
           </div>
         );
       }

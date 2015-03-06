@@ -28,7 +28,7 @@ var UserAuth = React.createClass({
   render: function(){
     var navBarContent;
     var currentUser = this.state.currentUser;
-    var text = currentUser ? 'Logout' : 'Login via:';
+    var text = currentUser ? 'Logout' : 'Login Via:';
     var username;
     if (currentUser){
       username = currentUser.socialData.name;
