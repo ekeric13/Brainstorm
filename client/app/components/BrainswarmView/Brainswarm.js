@@ -671,7 +671,7 @@ function createMap(brainswarmId, brainswarm){
 
 var Brainswarm = React.createClass({
 
-  mixins: [ State, PureRenderMixin],
+  mixins: [ State, PureRenderMixin, Reflux.ListenerMixin],
 
   getInitialState: function(){
     var brainswarmId = this.getParams().brainswarmId;
@@ -689,8 +689,7 @@ var Brainswarm = React.createClass({
     var self = this;
     window.setInterval(function(){
       BrainswarmActions.edit(self.state.brainswarmId, mapData);
-      socket.emit('map change', mapData);
-    }, 10000)
+    }, 3000)
     return {
       currentBrainswarm: currentBrainswarm || currentBrainswarmBackup,
       brainswarmId: brainswarmId
@@ -741,8 +740,15 @@ var Brainswarm = React.createClass({
   },
 
   componentDidMount: function(){
+    this.listenTo(RoomStore, this.onStoreChange);
     socket.emit('join brainswarm', this.state.brainswarmId);
     createMap(this.state.brainswarmId, this.state.currentBrainswarm);
+  },
+
+  onStoreChange: function() {
+    if(this.isMounted()) {
+      this.setState({ currentBrainswarm: BrainswarmStore.getAll() });
+    }
   },
 
   componentWillUnmount: function(){

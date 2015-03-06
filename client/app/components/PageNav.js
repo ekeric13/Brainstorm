@@ -28,13 +28,8 @@ var PageNav = React.createClass({
 
   handleWelcome:function(){
     //dispatch a navigate to welcome on click
-    var currentUrl = window.location.hrf;
     if (this.state.currentUser){
-      if (currentUrl.substr(currentUrl.length - 3) === "_=_"){
-        window.location.href = "/";
-      } else {
-        this.transitionTo('/rooms')
-      }
+      this.transitionTo('/rooms')
     } else {
       this.transitionTo('/')
     }
