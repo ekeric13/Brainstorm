@@ -25,15 +25,16 @@ var BrainswarmStore = Reflux.createStore({
     }.bind(this));
   },
 
-  checkBrainswarm: function(idea_id, callback){
-    var brainswarms = this._brainswarms;
-    for (var i =0; i < brainswarms.length; i++){
-      if (brainswarms[i].idea === idea_id){
-        return callback(brainswarms[i]);
-      }
-    }
-    callback();
-  },
+  //checkBrainswarm: function(idea_id, callback){
+  //  var brainswarms = this._brainswarms;
+  //  for (var i =0; i < brainswarms.length; i++){
+  //    if (brainswarms[i].idea === idea_id){
+  //      return callback(brainswarms[i]);
+  //    }
+  //  }
+  //  callback();
+  //},
+
   getBrainswarm: function(idea_id, callback) {
     $.ajax({
       type: 'GET',

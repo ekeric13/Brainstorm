@@ -204,22 +204,18 @@ var Idea = React.createClass({
     var brainswarmName = name + "_brainswarm";
 
     var self = this;
-    BrainswarmStore.checkBrainswarm(this.props._id, function (brainswarm) {
-      if (brainswarm) {
-        self.transitionTo("/brainswarms/" + brainswarm._id);
+
+    BrainswarmActions.getBrainswarm(self.props._id, function (brainswarmData) {
+      if (brainswarmData) {
+        self.transitionTo("/brainswarms/" + brainswarmData._id)
       } else {
-        //change to actions
-        BrainswarmActions.getBrainswarm(self.props._id, function (brainswarmData) {
-          if (brainswarmData) {
-            self.transitionTo("/brainswarms/" + brainswarmData._id)
-          } else {
-            BrainswarmActions.create(self.props._id, brainswarmName, function (brainswarmId) {
-              self.transitionTo("/brainswarms/" + brainswarmId)
-            });
-          }
+        BrainswarmActions.create(self.props._id, brainswarmName, function (brainswarmId) {
+          self.transitionTo("/brainswarms/" + brainswarmId)
         });
       }
-    })
+    });
+
+
   }
 });
 
