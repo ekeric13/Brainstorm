@@ -29,9 +29,9 @@ var PageNav = React.createClass({
   handleWelcome:function(){
     //dispatch a navigate to welcome on click
     if (this.state.currentUser){
-      this.transitionTo('/rooms')
+      this.transitionTo('/rooms');
     } else {
-      this.transitionTo('/')
+      this.transitionTo('/');
     }
   },
 

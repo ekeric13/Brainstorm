@@ -741,15 +741,8 @@ var Brainswarm = React.createClass({
   },
 
   componentDidMount: function(){
-    this.listenTo(BrainswarmStore, this.onStoreChange);
     socket.emit('join brainswarm', this.state.brainswarmId);
     createMap(this.state.brainswarmId, this.state.currentBrainswarm);
-  },
-
-  onStoreChange: function() {
-    if(this.isMounted()) {
-      this.setState({ currentBrainswarm: BrainswarmStore.getAll() });
-    }
   },
 
   componentWillUnmount: function(){
