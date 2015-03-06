@@ -741,7 +741,7 @@ var Brainswarm = React.createClass({
   },
 
   componentDidMount: function(){
-    this.listenTo(RoomStore, this.onStoreChange);
+    this.listenTo(BrainswarmStore, this.onStoreChange);
     socket.emit('join brainswarm', this.state.brainswarmId);
     createMap(this.state.brainswarmId, this.state.currentBrainswarm);
   },

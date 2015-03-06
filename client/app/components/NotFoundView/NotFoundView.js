@@ -6,6 +6,7 @@ var NotFoundView = React.createClass({
   mixins: PureRenderMixin,
 
   componentDidMount: function(){
+    var currentUrl = window.location.href;
     if (currentUrl.substr(currentUrl.length - 3) === "_=_"){
       window.location.href = "/#/rooms";
     }

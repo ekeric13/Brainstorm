@@ -57,28 +57,28 @@ var About = React.createClass({
         <h3> Brainstorming </h3>
         <ul>
           <li className="header-text">1. Join/create a room with your colleagues and solo brainstorm for 5 minutes. </li>
-          <li><div onClick={this.swap1} className="target"><img className="image" src="styles/assets/brainstorm1.png"/></div></li>
+          <li><div onClick={this.swap1} className="target"><img style={{width: ""+imageWidth + "px"}} className="image" src="styles/assets/brainstorm1.png"/></div></li>
         </ul>
         <ul>
           <li className="header-text">2. Brainstorm for another few minutes drawing inspiration from others ideas </li>
-          <li><div onClick={this.swap2} className="target"><img className="image" src="styles/assets/brainstorm2.png"/></div></li>
+          <li><div onClick={this.swap2} className="target"><img style={{width: ""+imageWidth + "px"}} className="image" src="styles/assets/brainstorm2.png"/></div></li>
         </ul>
         <ul>
           <li className="header-text">3. Post a hangout in the comments of an idea you want to brainswarm </li>
-          <li><div onClick={this.swap3} className="target"><img className="image" src="styles/assets/brainstorm3.png"/></div></li>
+          <li><div onClick={this.swap3} className="target"><img style={{width: ""+imageWidth + "px"}} className="image" src="styles/assets/brainstorm3.png"/></div></li>
         </ul>
         <h3> Brainswarming </h3>
         <ul>
           <li className="header-text">4. Brainswarm: build resources that can help you achieve your idea </li>
-          <li><div onClick={this.swap4} className="target"><img className="image" src="styles/assets/brainstorm4.png"/></div></li>
+          <li><div onClick={this.swap4} className="target"><img style={{width: ""+imageWidth + "px"}} className="image" src="styles/assets/brainstorm4.png"/></div></li>
         </ul>
         <ul>
           <li className="header-text">5. Create actions that need to be implemented with resources to achieve your idea  </li>
-          <li><div onClick={this.swap5} className="target"><img className="image" src="styles/assets/brainstorm5.png"/></div></li>
+          <li><div onClick={this.swap5} className="target"><img style={{width: ""+imageWidth + "px"}} className="image" src="styles/assets/brainstorm5.png"/></div></li>
         </ul>
         <ul>
           <li className="header-text">6. Create a desired path for achieving your idea  </li>
-          <li><div onClick={this.swap6} className="target"><img className="image" src="styles/assets/brainstorm6.png"/></div></li>
+          <li><div onClick={this.swap6} className="target"><img style={{width: ""+imageWidth + "px"}} className="image" src="styles/assets/brainstorm6.png"/></div></li>
         </ul>
         <h3> More Info </h3>
         <ul>
