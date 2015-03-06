@@ -639,8 +639,10 @@ function createMap(brainswarmId, brainswarm){
     var docEl = document.documentElement,
         bodyEl = document.getElementsByTagName('body')[0];
 
-    var width = 100%;
-    var height =  100%;
+    var width = window.innerWidth;
+    var height =  window.innerWidth;
+    width = width*0.675;
+
 
     var xLoc = width/2 - 25,
         yLoc = 100;
