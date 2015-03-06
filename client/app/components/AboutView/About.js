@@ -1,18 +1,18 @@
 var React = require("react");
 var PureRenderMixin = require('react/addons').addons.PureRenderMixin;
-
+var imageWidth = window.innerWidth*0.50;
 var i1 = 0;
 var i2 = 0;
 var i3 = 0;
 var i4 = 0;
 var i5 = 0;
 var i6 = 0;
-var brainstormScreenShot1 = '<img width="60%" className="image" src="styles/assets/brainstorm1.png"/>';
-var brainstormScreenShot2 = '<img width="60%" className="image" src="styles/assets/brainstorm2.png"/>';
-var brainstormScreenShot3 = '<img width="60%" className="image" src="styles/assets/brainstorm3.png"/>';
-var brainstormScreenShot4 = '<img width="60%" className="image" src="styles/assets/brainstorm4.png"/>';
-var brainstormScreenShot5 = '<img width="60%" className="image" src="styles/assets/brainstorm5.png"/>';
-var brainstormScreenShot6 = '<img width="60%" className="image" src="styles/assets/brainstorm6.png"/>';
+var brainstormScreenShot1 = '<img width="'+imageWidth'" className="image" src="styles/assets/brainstorm1.png"/>';
+var brainstormScreenShot2 = '<img width="'+imageWidth'" className="image" src="styles/assets/brainstorm2.png"/>';
+var brainstormScreenShot3 = '<img width="'+imageWidth'" className="image" src="styles/assets/brainstorm3.png"/>';
+var brainstormScreenShot4 = '<img width="'+imageWidth'" className="image" src="styles/assets/brainstorm4.png"/>';
+var brainstormScreenShot5 = '<img width="'+imageWidth'" className="image" src="styles/assets/brainstorm5.png"/>';
+var brainstormScreenShot6 = '<img width="'+imageWidth'" className="image" src="styles/assets/brainstorm6.png"/>';
 var brainstormGif1 = '<video src="http://share.gifyoutube.com/v1q4WP.webm" autoplay="" loop="" id="video" className="tc-videoHost" style="width: 60%"></video>';
 var brainstormGif2 = '<video src="http://share.gifyoutube.com/yg0ODA.webm" autoplay="" loop="" id="video" className="tc-videoHost" style="width: 60%"></video>';
 var brainstormGif3 = '<video src="http://share.gifyoutube.com/vnpGD9.webm" autoplay="" loop="" id="video" className="tc-videoHost" style="width: 60%"></video>';

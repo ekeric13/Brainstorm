@@ -1,5 +1,6 @@
 var React = require("react");
 var Router = require("react-router");
+var Reflux = require("reflux");
 var State = Router.State;
 var Link = Router.Link;
 var BrainswarmActions = require("../../actions/BrainswarmActions");
