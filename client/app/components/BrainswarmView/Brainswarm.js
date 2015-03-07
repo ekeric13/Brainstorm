@@ -17,9 +17,9 @@ function createMap(brainswarmId, brainswarm){
     // define graphcreator object
     var GraphCreator = function(svg, nodes, edges){
       var thisGraph = this;
-          thisGraph.idct = 0;
+      thisGraph.idct = 0;
 
-       //mapData = window.JSON.stringify({"nodes": thisGraph.nodes, "edges": saveEdges});
+      //mapData = window.JSON.stringify({"nodes": thisGraph.nodes, "edges": saveEdges});
       thisGraph.nodes = nodes || [];
       thisGraph.edges = edges || [];
 
@@ -61,62 +61,62 @@ function createMap(brainswarmId, brainswarm){
 
       thisGraph.svg = svg;
       thisGraph.svgG = svg.append("g")
-            .classed(thisGraph.consts.graphClass, true);
+        .classed(thisGraph.consts.graphClass, true);
       var svgG = thisGraph.svgG;
 
       // displayed when dragging between nodes
       thisGraph.dragLine = svgG.append('svg:path')
-            .attr('class', 'link dragline hidden')
-            .attr('d', 'M0,0L0,0')
-            .style('marker-end', 'url(#mark-end-arrow)');
+        .attr('class', 'link dragline hidden')
+        .attr('d', 'M0,0L0,0')
+        .style('marker-end', 'url(#mark-end-arrow)');
 
       // svg nodes and edges
       thisGraph.paths = svgG.append("g").selectAll("g");
       thisGraph.circles = svgG.append("g").selectAll("g");
 
       thisGraph.drag = d3.behavior.drag()
-            .origin(function(d){
-              return {x: d.x, y: d.y};
-            })
-            .on("drag", function(args){
-              thisGraph.state.justDragged = true;
-              thisGraph.dragmove.call(thisGraph, args);
-            })
-            .on("dragend", function() {
-              // todo check if edge-mode is selected
-            });
+        .origin(function(d){
+          return {x: d.x, y: d.y};
+        })
+        .on("drag", function(args){
+          thisGraph.state.justDragged = true;
+          thisGraph.dragmove.call(thisGraph, args);
+        })
+        .on("dragend", function() {
+          // todo check if edge-mode is selected
+        });
 
       // listen for key events
       d3.select(window).on("keydown", function(){
         thisGraph.svgKeyDown.call(thisGraph);
       })
-      .on("keyup", function(){
-        thisGraph.svgKeyUp.call(thisGraph);
-      });
+        .on("keyup", function(){
+          thisGraph.svgKeyUp.call(thisGraph);
+        });
       svg.on("mousedown", function(d){thisGraph.svgMouseDown.call(thisGraph, d);});
       svg.on("mouseup", function(d){thisGraph.svgMouseUp.call(thisGraph, d);});
 
       // listen for dragging
       var dragSvg = d3.behavior.zoom()
-            .on("zoom", function(){
-              if (d3.event.sourceEvent.shiftKey){
-                // TODO  the internal d3 state is still changing
-                return false;
-              } else{
-                thisGraph.zoomed.call(thisGraph);
-              }
-              return true;
-            })
-            .on("zoomstart", function(){
-              var ael = d3.select("#" + thisGraph.consts.activeEditId).node();
-              if (ael){
-                ael.blur();
-              }
-              if (!d3.event.sourceEvent.shiftKey) d3.select('body').style("cursor", "move");
-            })
-            .on("zoomend", function(){
-              d3.select('body').style("cursor", "auto");
-            });
+        .on("zoom", function(){
+          if (d3.event.sourceEvent.shiftKey){
+            // TODO  the internal d3 state is still changing
+            return false;
+          } else{
+            thisGraph.zoomed.call(thisGraph);
+          }
+          return true;
+        })
+        .on("zoomstart", function(){
+          var ael = d3.select("#" + thisGraph.consts.activeEditId).node();
+          if (ael){
+            ael.blur();
+          }
+          if (!d3.event.sourceEvent.shiftKey) d3.select('body').style("cursor", "move");
+        })
+        .on("zoomend", function(){
+          d3.select('body').style("cursor", "auto");
+        });
 
       svg.call(dragSvg).on("dblclick.zoom", null);
 
@@ -196,26 +196,26 @@ function createMap(brainswarmId, brainswarm){
     };
 
     // PROTOTYPE FUNCTIONS
-   GraphCreator.prototype.saveDB = function(){
-     var thisGraph= this;
-     var saveEdges = [];
-   //  console.log(thisGraph);
+    GraphCreator.prototype.saveDB = function(){
+      var thisGraph= this;
+      var saveEdges = [];
+      //  console.log(thisGraph);
 
-     thisGraph.edges.forEach(function(val, i){
-       saveEdges.push({source: val.source.id, target: val.target.id});
-     });
+      thisGraph.edges.forEach(function(val, i){
+        saveEdges.push({source: val.source.id, target: val.target.id});
+      });
 
-     // Get rid of duplicate nodes
-     for (var i = 0; i< thisGraph.nodes.length; i++){
-       var temp = thisGraph.nodes.indexOf(thisGraph.nodes[i].id, i+1);
-       if( temp !== -1){
-         delete thisGraph.nodes[temp]
-       }
-     }
-     var data = window.JSON.stringify({"nodes": thisGraph.nodes, "edges": saveEdges});
-     BrainswarmActions.edit(brainswarmId, data);
+      // Get rid of duplicate nodes
+      for (var i = 0; i< thisGraph.nodes.length; i++){
+        var temp = thisGraph.nodes.indexOf(thisGraph.nodes[i].id, i+1);
+        if( temp !== -1){
+          delete thisGraph.nodes[temp]
+        }
+      }
+      var data = window.JSON.stringify({"nodes": thisGraph.nodes, "edges": saveEdges});
+      BrainswarmActions.edit(brainswarmId, data);
 
-   };
+    };
 
     GraphCreator.prototype.dragmove = function(d) {
       var thisGraph = this;
@@ -231,7 +231,7 @@ function createMap(brainswarmId, brainswarm){
 
     GraphCreator.prototype.deleteGraph = function(skipPrompt){
       var thisGraph = this,
-          doDelete = true;
+        doDelete = true;
       if (!skipPrompt){
         doDelete = window.confirm("Press OK to delete this graph");
       }
@@ -255,10 +255,10 @@ function createMap(brainswarmId, brainswarm){
     // insert svg line breaks: taken from http://stackoverflow.com/questions/13241475/how-do-i-include-newlines-in-labels-in-d3-charts
     GraphCreator.prototype.insertTitleLinebreaks = function (gEl, title) {
       var words = title.split(/\s+/g),
-          nwords = words.length;
+        nwords = words.length;
       var el = gEl.append("text")
-            .attr("text-anchor","middle")
-            .attr("dy", "-" + (nwords-1)*7.5);
+        .attr("text-anchor","middle")
+        .attr("dy", "-" + (nwords-1)*7.5);
 
       for (var i = 0; i < words.length; i++) {
         var tspan = el.append('tspan').text(words[i]);
@@ -271,9 +271,9 @@ function createMap(brainswarmId, brainswarm){
     // remove edges associated with a node
     GraphCreator.prototype.spliceLinksForNode = function(node) {
       var thisGraph = this,
-          toSplice = thisGraph.edges.filter(function(l) {
-        return (l.source === node || l.target === node);
-      });
+        toSplice = thisGraph.edges.filter(function(l) {
+          return (l.source === node || l.target === node);
+        });
       toSplice.map(function(l) {
         thisGraph.edges.splice(thisGraph.edges.indexOf(l), 1);
       });
@@ -315,7 +315,7 @@ function createMap(brainswarmId, brainswarm){
 
     GraphCreator.prototype.pathMouseDown = function(d3path, d){
       var thisGraph = this,
-          state = thisGraph.state;
+        state = thisGraph.state;
       d3.event.stopPropagation();
       state.mouseDownLink = d;
 
@@ -334,7 +334,7 @@ function createMap(brainswarmId, brainswarm){
     // mousedown on node
     GraphCreator.prototype.circleMouseDown = function(d3node, d){
       var thisGraph = this,
-          state = thisGraph.state;
+        state = thisGraph.state;
       d3.event.stopPropagation();
       state.mouseDownNode = d;
       if (d3.event.shiftKey){
@@ -349,50 +349,50 @@ function createMap(brainswarmId, brainswarm){
     // place editable text on node in place of svg text
     GraphCreator.prototype.changeTextOfNode = function(d3node, d){
       var thisGraph= this,
-          consts = thisGraph.consts,
-          htmlEl = d3node.node();
+        consts = thisGraph.consts,
+        htmlEl = d3node.node();
       d3node.selectAll("text").remove();
       var nodeBCR = htmlEl.getBoundingClientRect(),
-          curScale = nodeBCR.width/consts.nodeRadius,
-          useHW = curScale > 1 ? nodeBCR.width*0.71 : consts.nodeRadius*1.42;
+        curScale = nodeBCR.width/consts.nodeRadius,
+        useHW = curScale > 1 ? nodeBCR.width*0.71 : consts.nodeRadius*1.42;
       // replace with editableconent text
 
       //look here to fix style of node inputs
       var d3txt = thisGraph.svg.selectAll("foreignObject")
-            .data([d])
-            .enter()
-            .append("foreignObject")
-            .attr("x",d.x -30)
-            .attr("y", d.y -30)
-            .attr("height", 2*useHW)
-            .attr("width", useHW)
-            .append("xhtml:p")
-            .attr("id", consts.activeEditId)
-            .attr("contentEditable", "true")
-            .text(d.title)
-            .on("mousedown", function(d){
-              d3.event.stopPropagation();
-            })
-            .on("keydown", function(d){
-              d3.event.stopPropagation();
-              if (d3.event.keyCode == consts.ENTER_KEY && !d3.event.shiftKey){
-                this.blur();
-              }
-            })
-            .on("blur", function(d){
-              d.title = this.textContent;
-              thisGraph.insertTitleLinebreaks(d3node, d.title);
-              d3.select(this.parentElement).remove();
+        .data([d])
+        .enter()
+        .append("foreignObject")
+        .attr("x",d.x -30)
+        .attr("y", d.y -30)
+        .attr("height", 2*useHW)
+        .attr("width", useHW)
+        .append("xhtml:p")
+        .attr("id", consts.activeEditId)
+        .attr("contentEditable", "true")
+        .text(d.title)
+        .on("mousedown", function(d){
+          d3.event.stopPropagation();
+        })
+        .on("keydown", function(d){
+          d3.event.stopPropagation();
+          if (d3.event.keyCode == consts.ENTER_KEY && !d3.event.shiftKey){
+            this.blur();
+          }
+        })
+        .on("blur", function(d){
+          d.title = this.textContent;
+          thisGraph.insertTitleLinebreaks(d3node, d.title);
+          d3.select(this.parentElement).remove();
           thisGraph.emit.call(thisGraph);
-            });
+        });
       return d3txt;
     };
 
     // mouseup on nodes
     GraphCreator.prototype.circleMouseUp = function(d3node, d){
       var thisGraph = this,
-          state = thisGraph.state,
-          consts = thisGraph.consts;
+        state = thisGraph.state,
+        consts = thisGraph.consts;
       // reset the states
       state.shiftNodeDrag = false;
       d3node.classed(consts.connectClass, false);
@@ -460,21 +460,21 @@ function createMap(brainswarmId, brainswarm){
     // mouseup on main svg
     GraphCreator.prototype.svgMouseUp = function(){
       var thisGraph = this,
-          state = thisGraph.state;
+        state = thisGraph.state;
       if (state.justScaleTransGraph) {
         // dragged not clicked
         state.justScaleTransGraph = false;
       } else if (state.graphMouseDown && d3.event.shiftKey){
         // clicked not dragged from svg
         var xycoords = d3.mouse(thisGraph.svgG.node()),
-            d = {id: thisGraph.idct++, title: "new concept", x: xycoords[0], y: xycoords[1]};
+          d = {id: thisGraph.idct++, title: "new concept", x: xycoords[0], y: xycoords[1]};
         thisGraph.nodes.push(d);
         thisGraph.updateGraph();
         // make title of text immediently editable
         var d3txt = thisGraph.changeTextOfNode(thisGraph.circles.filter(function(dval){
-          return dval.id === d.id;
-        }), d),
-            txtNode = d3txt.node();
+            return dval.id === d.id;
+          }), d),
+          txtNode = d3txt.node();
         thisGraph.selectElementContents(txtNode);
         txtNode.focus();
         thisGraph.emit.call(thisGraph);
@@ -489,32 +489,32 @@ function createMap(brainswarmId, brainswarm){
     // keydown on main svg
     GraphCreator.prototype.svgKeyDown = function() {
       var thisGraph = this,
-          state = thisGraph.state,
-          consts = thisGraph.consts;
+        state = thisGraph.state,
+        consts = thisGraph.consts;
       // make sure repeated key presses don't register for each keydown
       if(state.lastKeyDown !== -1) return;
 
       state.lastKeyDown = d3.event.keyCode;
       var selectedNode = state.selectedNode,
-          selectedEdge = state.selectedEdge;
+        selectedEdge = state.selectedEdge;
 
       switch(d3.event.keyCode) {
-      case consts.BACKSPACE_KEY:
-      case consts.DELETE_KEY:
-        d3.event.preventDefault();
-        if (selectedNode){
-          thisGraph.nodes.splice(thisGraph.nodes.indexOf(selectedNode), 1);
-          thisGraph.spliceLinksForNode(selectedNode);
-          state.selectedNode = null;
-          thisGraph.updateGraph();
-          thisGraph.emit.call(thisGraph);
-        } else if (selectedEdge){
-          thisGraph.edges.splice(thisGraph.edges.indexOf(selectedEdge), 1);
-          state.selectedEdge = null;
-          thisGraph.updateGraph();
-          thisGraph.emit.call(thisGraph);
-        }
-        break;
+        case consts.BACKSPACE_KEY:
+        case consts.DELETE_KEY:
+          d3.event.preventDefault();
+          if (selectedNode){
+            thisGraph.nodes.splice(thisGraph.nodes.indexOf(selectedNode), 1);
+            thisGraph.spliceLinksForNode(selectedNode);
+            state.selectedNode = null;
+            thisGraph.updateGraph();
+            thisGraph.emit.call(thisGraph);
+          } else if (selectedEdge){
+            thisGraph.edges.splice(thisGraph.edges.indexOf(selectedEdge), 1);
+            state.selectedEdge = null;
+            thisGraph.updateGraph();
+            thisGraph.emit.call(thisGraph);
+          }
+          break;
       }
     };
 
@@ -525,8 +525,8 @@ function createMap(brainswarmId, brainswarm){
     // call to propagate changes to graph
     GraphCreator.prototype.updateGraph = function(){
       var thisGraph = this,
-          consts = thisGraph.consts,
-          state = thisGraph.state;
+        consts = thisGraph.consts,
+        state = thisGraph.state;
 
       thisGraph.paths = thisGraph.paths.data(thisGraph.edges, function(d){
         return String(d.source.id) + "+" + String(d.target.id);
@@ -551,8 +551,8 @@ function createMap(brainswarmId, brainswarm){
         })
         .on("mousedown", function(d){
           thisGraph.pathMouseDown.call(thisGraph, d3.select(this), d);
-          }
-        )
+        }
+      )
         .on("mouseup", function(d){
           state.mouseDownLink = null;
         });
@@ -566,7 +566,7 @@ function createMap(brainswarmId, brainswarm){
 
       // add new nodes
       var newGs= thisGraph.circles.enter()
-            .append("g");
+        .append("g");
 
       newGs.classed(consts.circleGClass, true)
         .attr("transform", function(d){return "translate(" + d.x + "," + d.y + ")";})
@@ -606,71 +606,71 @@ function createMap(brainswarmId, brainswarm){
 
     GraphCreator.prototype.updateWindow = function(svg){
       var docEl = document.documentElement,
-          bodyEl = document.getElementsByTagName('body')[0];
+        bodyEl = document.getElementsByTagName('body')[0];
       var x = window.innerWidth || docEl.clientWidth || bodyEl.clientWidth;
       var y = window.innerHeight|| docEl.clientHeight|| bodyEl.clientHeight;
       svg.attr("width", x).attr("height", y);
     };
 
-      GraphCreator.prototype.emit = function(noSave){
-        var thisGraph = this;
-        var saveEdges = [];
-        console.log("THIS IS BOOL",noSave);
-        thisGraph.edges.forEach(function(val, i){
-          saveEdges.push({source: val.source.id, target: val.target.id});
-        });
+    GraphCreator.prototype.emit = function(noSave){
+      var thisGraph = this;
+      var saveEdges = [];
+      console.log("THIS IS BOOL",noSave);
+      thisGraph.edges.forEach(function(val, i){
+        saveEdges.push({source: val.source.id, target: val.target.id});
+      });
 
-        // Get rid of duplicate nodes
-        for (var i = 0; i< thisGraph.nodes.length; i++){
-          var temp = thisGraph.nodes.indexOf(thisGraph.nodes[i].id, i+1);
-          if( temp !== -1){
-            delete thisGraph.nodes[temp]
-          }
+      // Get rid of duplicate nodes
+      for (var i = 0; i< thisGraph.nodes.length; i++){
+        var temp = thisGraph.nodes.indexOf(thisGraph.nodes[i].id, i+1);
+        if( temp !== -1){
+          delete thisGraph.nodes[temp]
         }
-        var data = window.JSON.stringify({"nodes": thisGraph.nodes, "edges": saveEdges});
+      }
+      var data = window.JSON.stringify({"nodes": thisGraph.nodes, "edges": saveEdges});
       //  console.log("CLIENTMAP",mapId)
-        mapData = data;
-        var end = {};
-        end.mapData = mapData;
-        if(!noSave){
-          end.toSave = true;
-console.log("THIS IS FINAL",end)
-        }
-       // var idz = mapId.toString();
-       // console.log('NUMZ', typeof idz)
-        socket.emit('map change', end);
-      };
+      mapData = data;
+      var end = {};
+      end.mapData = mapData;
+      if(!noSave){
+        end.toSave = true;
+        console.log("THIS IS FINAL",end)
+      }
+      // var idz = mapId.toString();
+      // console.log('NUMZ', typeof idz)
+      socket.emit('map change', end);
+    };
     // MAIN
 
     // warn the user when leaving
 
 
     var docEl = document.documentElement,
-        bodyEl = document.getElementsByTagName('body')[0];
+      bodyEl = document.getElementsByTagName('body')[0];
 
     var width = window.innerWidth;
     var height =  window.innerHeight;
     width = width*0.675;
 
     var xLoc = width/2 - 25,
-        yLoc = 100;
+      yLoc = 100;
 
 
     var ideaName = brainswarm.name.slice(0, brainswarm.name.length -11);
 
     var nodes;
     var edges;
-      nodes = [{title: ideaName, id: 0, x: xLoc, y: yLoc}];
-      edges = [];
-       var svg = d3.select("#graph").append("svg")
-          .attr("width", width)
-          .attr("height", height);
-      var graph = new GraphCreator(svg, nodes, edges);
-      if (!brainswarm.map){
-        graph.setIdCt(1);
-        graph.updateGraph();
+    nodes = [{title: ideaName, id: 0, x: xLoc, y: yLoc}];
+    edges = [];
+    var svg = d3.select("#graph").append("svg")
+      .attr("width", width)
+      .attr("height", height);
+    var graph = new GraphCreator(svg, nodes, edges);
+    if (!brainswarm.map){
+      graph.setIdCt(1);
+      graph.updateGraph();
 
-      }
+    }
     //{title: "new concept", id: 1, x: xLoc, y: yLoc + 200}
     // MAIN SVG
 
@@ -687,10 +687,10 @@ var Brainswarm = React.createClass({
     var currentBrainswarm;
     // if user refreshes page create the brainswarm map
 
-      BrainswarmActions.getBrainswarmById(brainswarmId, function(backupBrainswarm){
-        currentBrainswarm = backupBrainswarm;
-        createMap(brainswarmId, backupBrainswarm);
-      });
+    BrainswarmActions.getBrainswarmById(brainswarmId, function(backupBrainswarm){
+      currentBrainswarm = backupBrainswarm;
+      createMap(brainswarmId, backupBrainswarm);
+    });
     // create a set interval function so that if user happens to refresh the page
     // then the map is most likely saved
     var self = this;
@@ -717,23 +717,23 @@ var Brainswarm = React.createClass({
     return (
       <div>
         <section className="brainswarm-section">
-        <div id="legendSection" className="col s3">
-          <div className="header-text2"><Link to="about"> Tips on how to brainswarm </Link></div>
-          <div className="legend">
-            <h5 className="center-align">Legend</h5>
+          <div id="legendSection" className="col s3">
+            <div className="header-text2"><Link to="about"> Tips on how to brainswarm </Link></div>
+            <div className="legend">
+              <h5 className="center-align">Legend</h5>
 
-            <p className="center-align legend-text"> drag/scroll to move/zoom the graph</p>
-            <p className="center-align legend-text"> shift-click on graph to create a circle</p>
-            <p className="center-align legend-text">shift-click on a circle and then drag to another circle to connect them with a directed arrow</p>
-            <p className="center-align legend-text"> shift-click on a circle to change its title</p>
-            <p className="center-align legend-text"> click on circle or arrow and press backspace/delete to delete</p>
-          </div>
-          <div className="toolbox">
+              <p className="center-align legend-text"> drag/scroll to move/zoom the graph</p>
+              <p className="center-align legend-text"> shift-click on graph to create a circle</p>
+              <p className="center-align legend-text">shift-click on a circle and then drag to another circle to connect them with a directed arrow</p>
+              <p className="center-align legend-text"> shift-click on a circle to change its title</p>
+              <p className="center-align legend-text"> click on circle or arrow and press backspace/delete to delete</p>
+            </div>
+            <div className="toolbox">
 
-          <a id="download-input" className="waves-effect waves-light btn-large cyan">
-            <i  className="mdi-file-file-download"></i>
-          </a>
-        </div>
+              <a id="download-input" className="waves-effect waves-light btn-large cyan">
+                <i  className="mdi-file-file-download"></i>
+              </a>
+            </div>
           </div>
 
           <div id="graph" className="blue lighten-2 col s9 offset-s3">
