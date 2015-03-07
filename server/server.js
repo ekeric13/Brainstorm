@@ -71,7 +71,7 @@ io.on('connection', function(client) {
     // console.log("THESSE ARE CHANGES",editMap);
 
     if(editMap.toSave){
-      console.log("being saved");
+     // console.log("being saved");
       brainswarmController.updateBrainswarm(client.brainswarm, editMap.mapData);
     }
     client.broadcast.to(client.brainswarm).emit('edit map', editMap.mapData);
