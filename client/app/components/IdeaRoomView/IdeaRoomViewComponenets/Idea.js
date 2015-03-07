@@ -204,7 +204,7 @@ var Idea = React.createClass({
     var brainswarmName = name + "_brainswarm";
 
     var self = this;
-
+    window.localStorage.removeItem("latestMap");
     BrainswarmActions.getBrainswarm(self.props._id, function (brainswarmData) {
       if (brainswarmData) {
         self.transitionTo("/brainswarms/" + brainswarmData._id)

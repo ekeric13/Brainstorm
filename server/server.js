@@ -5,6 +5,7 @@ var mongoose = require('./db.js');
 var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
+var brainswarmController = require('./brainswarms/brainswarmController');
 
 
 
@@ -68,7 +69,12 @@ io.on('connection', function(client) {
   client.on('map change', function(editMap){
     //console.log("CHANGES IN ROOMs",client.brainswarm);
     // console.log("THESSE ARE CHANGES",editMap);
-    client.broadcast.to(client.brainswarm).emit('edit map', editMap);
+
+    if(editMap.toSave){
+      console.log("being saved");
+      brainswarmController.updateBrainswarm(client.brainswarm, editMap.mapData);
+    }
+    client.broadcast.to(client.brainswarm).emit('edit map', editMap.mapData);
   });
 
   client.on('join ideaRoom', function(ideaRoom) {

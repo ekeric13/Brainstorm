@@ -610,9 +610,10 @@ function createMap(brainswarmId, brainswarm){
       svg.attr("width", x).attr("height", y);
     };
 
-      GraphCreator.prototype.emit = function(){
+      GraphCreator.prototype.emit = function(noSave){
         var thisGraph = this;
         var saveEdges = [];
+
         thisGraph.edges.forEach(function(val, i){
           saveEdges.push({source: val.source.id, target: val.target.id});
         });
@@ -627,9 +628,17 @@ function createMap(brainswarmId, brainswarm){
         var data = window.JSON.stringify({"nodes": thisGraph.nodes, "edges": saveEdges});
       //  console.log("CLIENTMAP",mapId)
         mapData = data;
+        window.localStorage.setItem("latestMap", mapData);
+        console.log("still have map data?", mapData);
+        var end = {};
+        end.mapData = mapData;
+        if(!noSave){
+          end.toSave = true;
+console.log("THIS IS FINAL",end)
+        }
        // var idz = mapId.toString();
        // console.log('NUMZ', typeof idz)
-        socket.emit('map change', data);
+        socket.emit('map change', end);
       };
     // MAIN
 
@@ -680,7 +689,9 @@ var Brainswarm = React.createClass({
 
     if (currentBrainswarm === undefined){
       BrainswarmActions.getBrainswarmById(brainswarmId, function(backupBrainswarm){
+        backupBrainswarm.map = window.localStorage.getItem("latestMap");
         currentBrainswarm = backupBrainswarm;
+        console.log("backup brainswarm", backupBrainswarm);
         createMap(brainswarmId, backupBrainswarm);
       });
     }
@@ -740,18 +751,21 @@ var Brainswarm = React.createClass({
   },
 
   componentDidMount: function(){
-    console.log("component Mounted");
+    console.log("component Mounted", this.state.currentBrainswarm);
     socket.emit('join brainswarm', this.state.brainswarmId);
     createMap(this.state.brainswarmId, this.state.currentBrainswarm);
-    window.onbeforeunload = function(e) {
-      e.preventDefault();
-      BrainswarmActions.edit(this.state.brainswarmId, mapData);
-    };
+    // window.onbeforeunload = function(e) {
+    //   e.preventDefault();
+    //   BrainswarmActions.edit(this.state.brainswarmId, mapData);
+    // };
   },
 
   componentWillUnmount: function(){
     // similar to componentDidMount but also invoked on the server;
-    BrainswarmActions.edit(this.state.brainswarmId, mapData);
+    var latestMap = mapData || window.localStorage.getItem("latestMap");
+    console.log("umounted", this.state.brainswarmId, latestMap);
+    BrainswarmActions.edit(this.state.brainswarmId, latestMap);
+    window.localStorage.removeItem("latestMap");
     socket.emit('brainswarm leave', this.state.brainswarmId);
   },
 

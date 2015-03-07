@@ -6,7 +6,6 @@ module.exports = {
   newBrainswarm: function(req, res, next) {
 
     var brainswarm = {};
-    console.log("not suppose to be HERE")
     //console.log('this is req: ',req);
     brainswarm.name = req.body.name;
     // need to send idea in ajax request within brainswarm store
@@ -35,25 +34,32 @@ module.exports = {
 
     updateBrainswarm: function(req, res, next) {
       //we convert the request objects into strings just to be safe(req.user._id was coming back as an object for some reason)
-      var user = String(req.user._id);
-      var ideaOwner = String(req.body.owner);
+
 
       //We want all to be able to save changes to brainswarm
-
+      console.log("request", req, res);
+      var query;
+      if (req.params) {
+        query = req.params.brainswarm_id;
+      } else {
+        query = req;
+      }
       // create promise for Idea.findById
       var findBrainswarmById = Q.nbind(Brainswarm.findById, Brainswarm);
-      console.log("HERE");
+      console.log("correct query", query);
       // attempt to find the idea by the id passed in
-      findBrainswarmById(req.params.brainswarm_id)
+      findBrainswarmById(query)
         .then(function(foundBrain) {
           // if the brainswarm is found update the name and save
           if (foundBrain) {
-            foundBrain.map = req.body.map;
+            foundBrain.map = req.body.map || res;
+            console.log("correc map", foundBrain.map);
             //add more to update dont know what
             foundBrain.save(function(err) {
               if (err) {
                 res.send(err);
               }
+              console.log("saved brainswarm", foundBrain);
               res.json(foundBrain);
             });
           }
