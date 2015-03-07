@@ -158,6 +158,7 @@ function createMap(brainswarmId, brainswarm){
       }
 
       socket.on('edit map', function(map){
+        mapData = map;
         thisGraph.deleteGraph(true);
         thisGraph.nodes = JSON.parse(map).nodes;
         thisGraph.setIdCt(thisGraph.nodes.length + 1);
@@ -612,7 +613,6 @@ function createMap(brainswarmId, brainswarm){
     GraphCreator.prototype.emit = function(noSave){
       var thisGraph = this;
       var saveEdges = [];
-      console.log("THIS IS BOOL",noSave);
       thisGraph.edges.forEach(function(val, i){
         saveEdges.push({source: val.source.id, target: val.target.id});
       });

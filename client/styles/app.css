@@ -36,7 +36,7 @@ a:hover {
   top: 8.5rem;
   left: 1rem;
   right: 1rem;
-  font-size: 6rem;
+  font-size: 8rem;
   color: white;
   font-family: GillSans, Calibri, Trebuchet, sans-serif;
   letter-spacing: .2rem;
@@ -45,10 +45,10 @@ a:hover {
 
 .hero-tagline{
   position: absolute;
-  top: 15rem;
+  top: 18rem;
   left: 1rem;
   right: 1rem;
-  font-size: 4rem;
+  font-size: 6rem;
   font-family: GillSans, Calibri, Trebuchet, sans-serif;
   letter-spacing: .1rem;
   font-weight: 300;
