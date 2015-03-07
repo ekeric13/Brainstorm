@@ -683,15 +683,13 @@ var Brainswarm = React.createClass({
   getInitialState: function(){
     var urlId = window.location.href.substr(window.location.href.length - 24);
     var brainswarmId = this.getParams().brainswarmId || urlId;
-    var currentBrainswarm = BrainswarmStore.findBrainswarm(brainswarmId);
+    var currentBrainswarm;
     // if user refreshes page create the brainswarm map
 
-    if (currentBrainswarm === undefined){
       BrainswarmActions.getBrainswarmById(brainswarmId, function(backupBrainswarm){
         currentBrainswarm = backupBrainswarm;
         createMap(brainswarmId, backupBrainswarm);
       });
-    }
     // create a set interval function so that if user happens to refresh the page
     // then the map is most likely saved
     var self = this;
